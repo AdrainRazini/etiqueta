@@ -2,7 +2,13 @@
 LOADING SYSTEM
 ========================= */
  
-const ADN = [];
+const ADN = {
+    name: "ADN Core",
+    version: "1.0.0",
+    modals: {},
+    ui: {},
+    forms: {}
+};
 
 const steps = [
     "Inicializando sistema...",
@@ -491,9 +497,9 @@ options:[
 
 }
 
-/* buttons */
-
+/* buttons toolbar */
 const buttons = document.querySelectorAll(".toolbar button");
+const infoBar = document.querySelector(".tool_info_bar");
 
 buttons.forEach(btn => {
 
@@ -529,40 +535,21 @@ buttons.forEach(btn => {
     });
 
     btn.addEventListener("mouseenter", ()=>{
-
         infoBar.textContent = label;
         infoBar.classList.add("show");
-
     });
 
     btn.addEventListener("mouseleave", ()=>{
-
         infoBar.classList.remove("show");
-
     });
 
 });
 
-const infoBar = document.querySelector(".tool_info_bar");
 
-document.querySelectorAll(".toolbar button").forEach(btn => {
+/* Conexões de App */
+ADN.register = function(name, module){
+    ADN.modules[name] = module;
+}
 
-    btn.addEventListener("mouseenter", ()=>{
-
-        const label = btn.dataset.label;
-
-        infoBar.textContent = label;
-
-        infoBar.classList.add("show");
-
-    });
-
-    btn.addEventListener("mouseleave", ()=>{
-
-        infoBar.classList.remove("show");
-
-    });
-
-});
-
+// Script.js tem que ser em ESModule ou Type:"Module" (type="module")
 export default ADN
