@@ -1,6 +1,8 @@
 /* =========================
 LOADING SYSTEM
 ========================= */
+ 
+const ADN = [];
 
 const steps = [
     "Inicializando sistema...",
@@ -562,3 +564,5 @@ document.querySelectorAll(".toolbar button").forEach(btn => {
     });
 
 });
+
+export default ADN
