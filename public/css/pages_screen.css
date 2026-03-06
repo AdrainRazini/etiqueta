@@ -334,6 +334,19 @@ background:#00000085;
     min-height:80px;
 }
 
+
+
+/* Layout Dentro de modal-inputs */
+
+#modal-inputs{
+
+display:flex;
+flex-direction:column;
+gap:10px;
+
+}
+
+
 .modal-footer{
 
     padding:15px;
