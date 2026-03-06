@@ -450,7 +450,8 @@ inputs:[
 { tag:"label", options:{text:"Volume"} },
 { tag:"input", options:{name:"volume", type:"number", class:"modal-input",placeholder:"Qtd Volume",required:true} },
 
-{ tag:"label", options:{text:"Tipo de Transporte"} },
+//{ tag:"label", options:{text:"Tipo de Transporte"} },
+/*
 {
 tag:"select",
 options:{
@@ -464,6 +465,7 @@ options:[
 }
 },
 
+*/
 { tag:"label", options:{text:"Origem"} },
 { tag:"input", options:{name:"origem", type:"text", class:"modal-input",placeholder:"Origem",required:true} },
 
