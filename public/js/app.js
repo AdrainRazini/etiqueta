@@ -280,7 +280,7 @@ function abrirInfoInputs(){
 
 openModal({
     title:"ADN Core",
-    text:"Engine carregada com sucesso",
+    text:"Engine carregada com sucesso (Exemplo)",
     //image:"image/fa_ADN_Loading_Mod.png",
     textsub:"Este é um exemplo de modal do sistema ADN. (Em Teste)",
     inputs:[
