@@ -2,13 +2,72 @@
 LOADING SYSTEM
 ========================= */
  
+// Exportação de Dados
 const ADN = {
     name: "ADN Core",
-    version: "1.0.0",
-    modals: {},
-    ui: {},
-    forms: {}
+    version: "3.0.1",
+
+    // Resumo de Func (acelerar interação com importação e Exportação)
+    modules: {}, // criação e armazem de nome,func
+    modals: {}, // modulos registro principal
+    ui: {}, // Interface
+    forms: {}, // formulários dinâmicos (para Clientes)
+    templates: {}, // Templates 
+
+    // usando conceitos de nóss ou Plugs
+    register(name, args = {}) {
+
+        const type = args.type || "module";
+
+        const module = {
+            name,
+            type,
+            open: args.open || null,
+            run: args.run || null,
+            ...args
+        };
+
+        this.modules[name] = module;
+
+        switch(type){
+
+            case "modal":
+                this.modals[name] = module;
+            break;
+
+            case "ui":
+                this.ui[name] = module;
+            break;
+
+            case "form":
+                this.forms[name] = module;
+            break;
+
+        }
+
+    },
+
+    run(name){
+
+        const mod = this.modules[name];
+
+        if(!mod){
+            console.warn("Modulo não encontrado:", name);
+            return;
+        }
+
+        if(typeof mod.open === "function"){
+            mod.open();
+        }
+
+        if(typeof mod.run === "function"){
+            mod.run();
+        }
+
+    }
+
 };
+
 
 const steps = [
     "Inicializando sistema...",
@@ -429,17 +488,18 @@ openModal({
     title:"Chat Adn",
     text:"Engine carregada com sucesso",
     textsub:"Ia Cloud",
-    inputs:[],
-    //Confimação Print
+
+    inputs:[
+        ADN.templates.link("https://adn-ia.vercel.app/") // Test de plug App
+    ],
+
     onConfirm:(dados)=>{
-
-    console.log("Chat criada:", dados);
-
+        console.log("Chat criada:", dados);
     }
+
 });
 
 }
-
 
 function abrirEtiqueta(){
 
@@ -452,28 +512,10 @@ inputs:[
 { tag:"label", options:{text:"Nome do Cliente"} },
 { tag:"input", options:{name:"nome", type:"text", class:"modal-input",placeholder:"Digite o nome",required:true} },
 
-//{ tag:"label", options:{text:"Telefone"} },
-//{ tag:"input", options:{name:"telefone",type:"text", class:"modal-input",placeholder:"Digite o telefone",required:true} },
-
 { tag:"label", options:{text:"Volume"} },
 { tag:"input", options:{name:"volume", type:"number", class:"modal-input",placeholder:"Qtd Volume",required:true} },
 
-//{ tag:"label", options:{text:"Tipo de Transporte"} },
-/*
-{
-tag:"select",
-options:{
-name:"tipo",
-class:"modal-input",
-options:[
-{value:"mudanca", text:"Mudança"},
-{value:"veiculo", text:"Veículo"},
-{value:"carga", text:"Carga"}
-]
-}
-},
 
-*/
 { tag:"label", options:{text:"Origem"} },
 { tag:"input", options:{name:"origem", type:"text", class:"modal-input",placeholder:"Origem",required:true} },
 
@@ -546,10 +588,58 @@ buttons.forEach(btn => {
 });
 
 
-/* Conexões de App */
-ADN.register = function(name, module){
-    ADN.modules[name] = module;
-}
+/* Conexões de App */ 
+// Test de Registros
 
-// Script.js tem que ser em ESModule ou Type:"Module" (type="module")
+// type define local
+// open define func
+
+ADN.register("etiqueta", {
+    open: abrirEtiqueta,
+    type: "modal"
+});
+
+ADN.templates = {
+
+    label(text){
+        return { tag:"label", options:{ text } };
+    },
+
+    input(name, placeholder="", required=false){
+        return {
+            tag:"input",
+            options:{
+                name,
+                type:"text",
+                class:"modal-input",
+                placeholder,
+                required
+            }
+        };
+    },
+
+    textarea(name){
+        return {
+            tag:"textarea",
+            options:{
+                name,
+                class:"modal-input"
+            }
+        };
+    },
+
+    link(url){
+    return {
+        tag:"a",
+        options:{
+            href:url,
+            text:url,
+            target:"_blank",
+            class:"modal-link"
+        }
+    };
+}
+};
+
+// Script.js tem que ser em ESModule ou Type:"Module" (type="module") em .json ou .html
 export default ADN
