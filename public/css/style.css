@@ -1,5 +1,7 @@
+/* style.css */
 
 :root{
+    /* style.css */
     --bg-dark:#0a0a0a;
     --card-bg:#f5f5f5;
     --radius:12px;
@@ -27,4 +29,8 @@ body{
     width:100%;
     max-width:500px;
     border-radius:10px;
+}
+
+.image-card:hover{
+    transform:scale(1.03);
 }

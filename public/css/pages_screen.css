@@ -1,4 +1,76 @@
 
+:root{
+
+    /* pages_scren.css */
+    /*LOADING SCREEN*/
+    --loading-screen-bg:#0a0a0a;
+    --loading-screen-opacity-transition:0.8s;
+
+    /* LOGO */
+    --loading-logo-width:140px;
+    --loading-logo-margin-bottom:40px;
+    --loading-logo-animation-time:2s;
+
+    /* SLIDER */
+    --loading-slider-width:260px;
+    --loading-slider-height:6px;
+    --loading-slider-bg:#1e1e1e;
+    --loading-slider-radius:20px;
+
+    /* PROGRESS BAR */
+    --loading-progress-color-1:#00f7ff;
+    --loading-progress-color-2:#00a2ff;
+    --loading-progress-transition:0.6s;
+
+    /* TEXT */
+    --loading-text-color:#aaa;
+    --loading-text-size:14px;
+    --loading-text-margin-top:18px;
+
+    /* Animate-Logo */
+    --logo-pulse-in:0.6;
+    --logo-pulse-out:1;
+
+    /* ToolBar */
+
+    /* posição */
+    --toolbar-bottom:30px;
+    --toolbar-gap:20px;
+
+    /* botão */
+    --tool-btn-size:45px;
+    --tool-btn-radius:10px;
+
+    --tool-btn-bg:#1e1e1e;
+    --tool-btn-color:#aaa;
+
+    --tool-btn-hover-bg:#00a2ff;
+    --tool-btn-hover-color:#ffffff;
+
+    --tool-btn-font-size:18px;
+
+    --tool-btn-transition:0.25s;
+
+    /* info tooltip */
+    --tool-info-bg:#111;
+    --tool-info-color:#ffffff;
+
+    --tool-info-font:13px;
+
+    --tool-info-radius:6px;
+
+    --tool-info-padding-y:6px;
+    --tool-info-padding-x:12px;
+
+    --tool-info-bottom:60px;
+
+    --tool-info-scale-start:0.9;
+    --tool-info-scale-end:1;
+
+    /* Modals */
+
+}
+
 /* ========================
 LOADING SCREEN
 ======================== */
@@ -13,11 +85,12 @@ LOADING SCREEN
     justify-content:center;
     align-items:center;
 
-    background:#0a0a0a;
+     background:var(--loading-screen-bg);
 
     opacity:0;
-    transition:opacity 0.8s ease;
+    transition:opacity var(--loading-screen-opacity-transition) ease;
 }
+
 
 #loading-screen.show{
     opacity:1;
@@ -32,13 +105,12 @@ LOGO
 ======================== */
 
 .logo{
-
-    width:140px;
-    margin-bottom:40px;
-
-    animation:logoPulse 2s infinite;
+    width:var(--loading-logo-width);
+    margin-bottom:var(--loading-logo-margin-bottom);
+    animation:logoPulse var(--loading-logo-animation-time) infinite;
     transition:transform 0.35s ease;
 }
+
 
 /* ========================
 SLIDER
@@ -46,14 +118,14 @@ SLIDER
 
 .slider{
 
-    width:260px;
-    height:6px;
+    width:var(--loading-slider-width);
+    height:var(--loading-slider-height);
+    background:var(--loading-slider-bg);
+    border-radius:var(--loading-slider-radius);
 
-    background:#1e1e1e;
-
-    border-radius:20px;
     overflow:hidden;
 }
+
 
 /* barra controlada pelo JS */
 
@@ -64,13 +136,14 @@ SLIDER
 
     background:linear-gradient(
         90deg,
-        #00f7ff,
-        #00a2ff,
-        #00f7ff
+        var(--loading-progress-color-1),
+        var(--loading-progress-color-2),
+        var(--loading-progress-color-1)
     );
-
-    transition:width 0.6s ease;
+    transition:width var(--loading-progress-transition) ease;
 }
+
+
 
 /* ========================
 TEXT
@@ -78,25 +151,29 @@ TEXT
 
 .loading-text{
 
-    margin-top:18px;
-    color:#aaa;
-    font-size:14px;
+    margin-top:var(--loading-text-margin-top);
+    color:var(--loading-text-color);
+    font-size:var(--loading-text-size);
 
     transition:opacity 0.3s ease;
 }
+
 
 /* ========================
 ANIMATIONS
 ======================== */
 
 @keyframes logoPulse{
-
-    0%{opacity:0.6}
-    50%{opacity:1}
-    100%{opacity:0.6}
-
+    0%{
+        opacity:var(--logo-pulse-in);
+    }
+    50%{
+        opacity:var(--logo-pulse-out);
+    }
+    100%{
+        opacity:var(--logo-pulse-in);
+    }
 }
-
 
 
 /* ========================
@@ -106,14 +183,15 @@ Tools
 .toolbar{
 
     position:fixed;
-    bottom:30px;
+    bottom:var(--toolbar-bottom);
     left:50%;
 
     transform:translateX(-50%);
 
     display:flex;
-    gap:20px;
+    gap:var(--toolbar-gap);
 }
+
 
 #toolbar-tab{
 opacity:0;
@@ -129,48 +207,48 @@ pointer-events:auto;
 
 .toolbar button{
 
-    width:45px;
-    height:45px;
+    width:var(--tool-btn-size);
+    height:var(--tool-btn-size);
 
     border:none;
-    border-radius:10px;
+    border-radius:var(--tool-btn-radius);
 
-    background:#1e1e1e;
-    color:#aaa;
+    background:var(--tool-btn-bg);
+    color:var(--tool-btn-color);
 
-    font-size:18px;
+    font-size:var(--tool-btn-font-size);
 
     cursor:pointer;
 
-    transition:all 0.25s;
+    transition:all var(--tool-btn-transition);
 }
+
 
 .toolbar button:hover{
 
-    background:#00a2ff;
-    color:white;
+    background:var(--tool-btn-hover-bg);
+    color:var(--tool-btn-hover-color);
 
     transform:translateY(-3px);
-
 }
 
 
 .tool_info_bar{
 
     position:absolute;
-    bottom:60px;
+    bottom:var(--tool-info-bottom);
     left:50%;
 
-    transform:translateX(-50%) scale(0.9);
+    transform:translateX(-50%) scale(var(--tool-info-scale-start));
 
-    padding:6px 12px;
+    padding:var(--tool-info-padding-y) var(--tool-info-padding-x);
 
-    background:#111;
-    color:#fff;
+    background:var(--tool-info-bg);
+    color:var(--tool-info-color);
 
-    font-size:13px;
+    font-size:var(--tool-info-font);
 
-    border-radius:6px;
+    border-radius:var(--tool-info-radius);
 
     opacity:0;
 
@@ -178,6 +256,7 @@ pointer-events:auto;
 
     transition:all 0.25s;
 }
+
 
 .tool_info_bar.show{
 
@@ -202,8 +281,8 @@ pointer-events:auto;
 
 }
 
-/* Modals */
 
+/* Modals */
 .modal-overlay{
 
     position:fixed;
@@ -302,20 +381,7 @@ pointer-events:auto;
 }
 
 .modal-image{
-
     width:100%;
-    border-radius:6px;
-}
-
-.modal-input,
-.modal-textarea{
-
-    background:#1a1a1a;
-    border:1px solid #333;
-
-    color:white;
-
-    padding:8px;
     border-radius:6px;
 }
 
