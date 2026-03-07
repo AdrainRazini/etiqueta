@@ -1,3 +1,46 @@
+
+
 :root{
-    
+/* layout_pdf.css */
+
+/*PAGE CONFIG*/
+--pdf-page-size:A4;
+--pdf-page-margin:10mm;
+
+/*TYPOGRAPHY*/
+--pdf-font-family:Arial, Helvetica, sans-serif;
+--pdf-font-size-base:12px;
+--pdf-font-color:#000;
+
+/* LAYOUT*/
+--pdf-page-bg:#ffffff;
+--pdf-page-padding:10mm;
+
+/*BORDER / STRUCTURE*/
+--pdf-border-color:#000;
+--pdf-border-width:1px;
+
+}
+
+body{
+    font-family:var(--pdf-font-family);
+    font-size:var(--pdf-font-size-base);
+    color:var(--pdf-font-color);
+    background:var(--pdf-page-bg);
+}
+
+@page{
+    size:var(--pdf-page-size);
+    margin:var(--pdf-page-margin);
+}
+
+@media print{
+
+#loading-screen,
+.toolbar,
+.modal-overlay,
+.conteudos-card{
+display:none !important;
+}
+
 }
