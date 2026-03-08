@@ -15,6 +15,7 @@ const ADN = {
     forms: {}, // formulários dinâmicos (para Clientes)
     templates: {}, // Templates 
     func:{}, // func externas
+    cache:{}, // Memory app
 
     // usando conceitos de nóss ou Plugs
     register(name, args = {}) {
@@ -348,116 +349,71 @@ function abrirInfoInputs(){
 
 openModal({
     title:"ADN Core",
-    text:"Engine carregada com sucesso (Exemplo)",
-    //image:"image/fa_ADN_Loading_Mod.png",
-    textsub:"Este é um exemplo de modal do sistema ADN. (Em Teste)",
+    text:"Sistema modular carregado com sucesso.",
+    textsub:"Este modal demonstra o funcionamento do sistema dinâmico de interfaces do ADN Core.",
+
     inputs:[
 
+        {tag:"label", options:{text:"Módulo"}},
+
         {
-            tag:"label",
-            options:{text:"Nome"}
+            tag:"select",
+            options:{
+                name:"modulo",
+                class:"modal-input",
+                options:[
+                    "Modal System",
+                    "Cache System",
+                    "Forms Engine",
+                    "UI Components"
+                ]
+            }
         },
+
+        {tag:"label", options:{text:"Versão da Engine"}},
 
         {
             tag:"input",
             options:{
-                name:"nome",
+                name:"versao",
                 type:"text",
-                class:"modal-input"
+                class:"modal-input",
+                value:"ADN Core 3.0.1"
             }
         },
-        {
-            tag:"label",
-            options:{text:"Quantidade"}
-        },
+
+        {tag:"label", options:{text:"Tipo de Interface"}},
 
         {
-            tag:"input",
+            tag:"select",
             options:{
-                name:"Quantidade",
-                type:"text",
-                class:"modal-input"
+                name:"interface",
+                class:"modal-input",
+                options:[
+                    "Formulário Dinâmico",
+                    "Modal Informativo",
+                    "Painel de Controle",
+                    "Sistema de Configuração"
+                ]
             }
         },
 
-        {
-    tag:"label",
-    options:{text:"Tipo"}
-},
-
-{
-    tag:"select",
-    options:{
-        name:"tipo",
-        class:"modal-input",
-        options:[
-            "Item",
-            "Ferramenta",
-            "Consumível"
-        ]
-    }
-},
-
-{
-    tag:"select",
-    options:{
-        name:"tipo 2",
-        class:"modal-input",
-        options:[
-            {value:"1", text:"Mudança"},
-            {value:"2", text:"Veículo"}
-        ]
-    }
-},
-
-        {
-            tag:"label",
-            options:{text:"Origem"}
-        },
-
-        {
-            tag:"input",
-            options:{
-                name:"Origem",
-                type:"text",
-                class:"modal-input"
-            }
-        },
-
-        
-        {
-            tag:"label",
-            options:{text:"Destino"}
-        },
-
-        {
-            tag:"input",
-            options:{
-                name:"Destino",
-                type:"text",
-                class:"modal-input"
-            }
-        },
-
-        {
-            tag:"label",
-            options:{text:"Descrição"}
-        },
+        {tag:"label", options:{text:"Descrição do Sistema"}},
 
         {
             tag:"textarea",
             options:{
                 name:"descricao",
-                class:"modal-input"
+                class:"modal-input",
+                value:"O ADN Core é uma engine modular projetada para criar interfaces, formulários e sistemas interativos de forma dinâmica utilizando configurações em JSON."
             }
         }
 
     ],
 
-    //Confimação Print
     onConfirm:(dados)=>{
 
-    console.log("Etiqueta criada:", dados);
+        console.log("Configuração selecionada:", dados);
 
     }
 
@@ -535,11 +491,17 @@ inputs:[
 ],
 
     //Confimação Print
-    onConfirm:(dados)=>{
+onConfirm:(dados)=>{
 
-    console.log("Etiqueta criada:", dados);
+  const etiquetas = ADN.cache.get("etiquetas") || {};
 
-    }
+  const id = Date.now();
+
+  etiquetas[id] = dados;
+
+  ADN.cache.set("etiquetas", etiquetas);
+
+}
 
 
 });

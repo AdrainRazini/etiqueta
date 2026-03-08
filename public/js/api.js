@@ -1,6 +1,6 @@
 import ADN from "./app.js";
 
-console.log(ADN.modules);
+console.log(ADN);
 
 // Abrir o App // app, modals, modals.tag, Func.
 // ADN.modals.etiqueta.open();
