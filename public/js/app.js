@@ -224,6 +224,8 @@ function createobj(tag, options = {}) {
 
     return el;
 }
+
+
 function openModal(args = {}) {
 
     modalCallback = args.onConfirm || null;
