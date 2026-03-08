@@ -2,7 +2,14 @@
 :root{
 
     /* pages_scren.css */
+
     /*LOADING SCREEN*/
+    --loading-screen-position:fixed;
+    --loading-screen-display:flex;
+    --loading-screen-justify-content:center;
+    --loading-screen-flex-direction:column;
+    --loading-screen-aling-items:center;
+
     --loading-screen-bg:#0a0a0a;
     --loading-screen-opacity-transition:0.8s;
 
@@ -69,6 +76,69 @@
 
     /* Modals */
 
+   --modal-pointer-events:none;
+
+   --modal-overlay-position:fixed;
+   --modal-overlay-bg:rgba(0,0,0,0.65);
+   --modal-backdrop-filter:blur(4px);
+   --modal-display:flex;
+   --modal-justify-content:center;
+   --modal-align-items:center;
+   
+   /* Window */
+
+   --modal-window-width:90%;
+   --modal-window-max-width:500px;
+   --modal-window-max-height:80vh;
+
+   --modal-window-bg:#111;
+   --modal-window-border-radius:12px;
+
+   --modal-window-display:flex;
+   --modal-window-flex-direction:column;
+   --modal-window-overflow:hidden;
+
+   /* Header */
+   --modal-header-bg:#181818;
+   --modal-header-padding:15px;
+   --modal-header-display:flex;
+   --modal-header-justify-content:space-between;
+   --modal-header-align-items:center;
+   --modal-header-border-bottom:1px solid #2a2a2a;
+
+   --modal-header-h2-font-size:18px;
+   --modal-header-h2-color:#ddd;
+
+   /*Modal-close*/
+   --modal-close-bg:none;
+   --modal-close-border:none;
+   --modal-close-color:#aaa;
+   --modal-close-font-size:20px;
+   --modal-close-cursor:pointer;
+
+   /* Modal-body */
+   --modal-body-padding:20px;
+   --modal-body-overflow-y:auto;
+   --modal-body-display:flex;
+   --modal-body-flex-direction:column;
+   --modal-body-gap:15px;
+   --modal-body-color:#bbb;
+
+   /* Modal-imput */
+   --modal-bd-input-bg:#1a1a1a;
+   --modal-bd-input-border:1px solid #333;
+   --modal-bd-input-color:white;
+   --modal-bd-input-padding:8px;
+   --modal-bd-input-border-radius:6px;
+
+   /* Modal-Alert */
+   --modal-input-error-border:2px solid #ff4d4f;
+   --modal-input-error-bg:#00000085;
+
+   --modal-input-valid-border:2px solid #4dff53;
+   --modal-input-valid-bg:#00000085;
+
+
 }
 
 /* ========================
@@ -77,13 +147,13 @@ LOADING SCREEN
 
 #loading-screen{
 
-    position:fixed;
+    position:var(--loading-screen-position);
     inset:0;
 
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    display:var(--loading-screen-display);
+    flex-direction:var(--loading-screen-flex-direction);
+    justify-content:var(--loading-screen-justify-content);
+    align-items:var(--loading-screen-aling-items);
 
      background:var(--loading-screen-bg);
 
@@ -252,7 +322,7 @@ pointer-events:auto;
 
     opacity:0;
 
-    pointer-events:none;
+    pointer-events:var(--modal-pointer-events); /* none */
 
     transition:all 0.25s;
 }
@@ -264,6 +334,7 @@ pointer-events:auto;
     transform:translateX(-50%) scale(1);
 
 }
+
 .tool_info_bar::after{
 
     content:"";
@@ -285,99 +356,98 @@ pointer-events:auto;
 /* Modals */
 .modal-overlay{
 
-    position:fixed;
+    position:var(--modal-overlay-position);
     inset:0;
 
-    background:rgba(0,0,0,0.65);
-    backdrop-filter:blur(4px);
+    background:var(--modal-overlay-bg);
+    backdrop-filter:var(--modal-backdrop-filter);
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display:var(--modal-display);
+    justify-content:var(--modal-justify-content);
+    align-items:var(--modal-align-items);
 
     opacity:0;
-    pointer-events:none;
+    pointer-events:var(--modal-pointer-events); /* none */
 
     transition:opacity 0.3s;
 }
 
 .modal-overlay.show{
-
     opacity:1;
     pointer-events:auto;
 }
 
 .modal-window{
 
-    width:90%;
-    max-width:500px;
-    max-height:80vh;
+    width:var(--modal-window-width);
+    max-width:var(--modal-window-max-width);
+    max-height:var(--modal-window-max-height);
 
-    background:#111;
+    background:var(--modal-window-bg);
 
-    border-radius:12px;
+    border-radius:var(--modal-window-border-radius);
 
-    display:flex;
-    flex-direction:column;
+    display:var(--modal-window-display);
+    flex-direction:var(--modal-window-flex-direction);
 
-    overflow:hidden;
+    overflow:var(--modal-window-overflow);
 
     animation:modalEnter 0.3s ease;
 }
 
 .modal-header{
 
-    padding:15px;
+    padding:var(--modal-header-padding);
 
-    background:#181818;
+    background:var(--modal-header-bg);
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    display:var(--modal-header-display);
+    justify-content:var(--modal-header-justify-content);
+    align-items:var(--modal-header-align-items);
 
-    border-bottom:1px solid #2a2a2a;
+    border-bottom:var(--modal-header-border-bottom);
 }
 
 .modal-header h2{
 
-    font-size:18px;
-    color:#ddd;
+    font-size:var(--modal-header-h2-font-size);
+    color:var(--modal-header-h2-color);
 }
 
 .modal-close{
 
-    background:none;
-    border:none;
+    background:var(--modal-close-bg);
+    border:var(--modal-close-border);
 
-    color:#aaa;
-    font-size:20px;
+    color:var(--modal-close-color);
+    font-size:var(--modal-close-font-size);
 
-    cursor:pointer;
+    cursor:var(--modal-close-cursor);
 }
 
 .modal-body{
 
-    padding:20px;
+    padding:var(--modal-body-padding);
 
-    overflow-y:auto;
+    overflow-y:var(--modal-body-overflow-y);
 
-    display:flex;
-    flex-direction:column;
-    gap:15px;
+    display:var(--modal-body-display);
+    flex-direction:var(--modal-body-flex-direction);
+    gap:var(--modal-body-gap);
 
-    color:#bbb;
+    color:var(--modal-body-color);
 }
 
 .modal-input,
 .modal-body textarea {
 
-    background:#1a1a1a;
-    border:1px solid #333;
+    background:var(--modal-bd-input-bg);
+    border:var(--modal-bd-input-border);
 
-    color:white;
+    color:var(--modal-bd-input-color);
 
-    padding:8px;
-    border-radius:6px;
+    padding:var(--modal-bd-input-padding);
+    border-radius:var(--modal-bd-input-border-radius);
 }
 
 .modal-image{
@@ -386,13 +456,13 @@ pointer-events:auto;
 }
 
 .input-error{
-border:2px solid #ff4d4f;
-background:#00000085;
+border:var(--modal-input-error-border);
+background:var(--modal-input-error-bg);
 }
 
 .input-valid{
-border:2px solid #4dff53;
-background:#00000085;
+border:var(--modal-input-valid-border);
+background:var(--modal-input-valid-bg);
 }
 
 .modal-textarea{

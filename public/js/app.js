@@ -2,6 +2,7 @@
 LOADING SYSTEM
 ========================= */
  
+
 // Exportação de Dados
 const ADN = {
     name: "ADN Core",
@@ -13,6 +14,7 @@ const ADN = {
     ui: {}, // Interface
     forms: {}, // formulários dinâmicos (para Clientes)
     templates: {}, // Templates 
+    func:{}, // func externas
 
     // usando conceitos de nóss ou Plugs
     register(name, args = {}) {
@@ -178,7 +180,7 @@ const textSubEl = document.getElementById("modal-text-sub");
 
 let modalCallback = null;
 
-function createobj(tag, options = {}){
+function createobj(tag, options = {}) {
 
     const el = document.createElement(tag);
 
@@ -221,7 +223,6 @@ function createobj(tag, options = {}){
 
     return el;
 }
-
 function openModal(args = {}) {
 
     modalCallback = args.onConfirm || null;
@@ -311,7 +312,7 @@ function getModalData(){
     });
 
     if(!valid){
-        alert("Preencha todos os campos obrigatórios.");
+        alert("Preencha os campos obrigatórios.");
         return null;
     }
 
@@ -515,13 +516,19 @@ inputs:[
 { tag:"label", options:{text:"Volume"} },
 { tag:"input", options:{name:"volume", type:"number", class:"modal-input",placeholder:"Qtd Volume",required:true} },
 
-
+// Origem 
 { tag:"label", options:{text:"Origem"} },
-{ tag:"input", options:{name:"origem", type:"text", class:"modal-input",placeholder:"Origem",required:true} },
+{ tag:"input", options:{name:"origem", type:"text", class:"modal-input",placeholder:"Endereço de Origem",required:true} },
+{ tag:"select",options:{name:"uf_origem", id:"uf-origem",class:"modal-input",required:true}},
+{ tag:"select",options:{name:"cidade_origem:", id:"cidade-origem",class:"modal-input",required:true}},
 
+// Destino
 { tag:"label", options:{text:"Destino"} },
-{ tag:"input", options:{name:"destino", type:"text", class:"modal-input",placeholder:"Destino",required:true} },
+{ tag:"input", options:{name:"destino", type:"text", class:"modal-input",placeholder:"Endereço de Destino",required:true}},
+{ tag:"select",options:{name:"uf_destino", id:"uf-destino",class:"modal-input",required:true}},
+{ tag:"select",options:{name:"cidade_destino", id:"cidade-destino",class:"modal-input",required:true}},
 
+// Extra Obs
 { tag:"label", options:{text:"Observações"} },
 { tag:"textarea", options:{name:"obs", class:"modal-input"} }
 
