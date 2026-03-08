@@ -378,7 +378,7 @@ openModal({
                 name:"versao",
                 type:"text",
                 class:"modal-input",
-                value:"ADN Core 3.0.1"
+                value: ADN.name + " " + ADN.version
             }
         },
 
