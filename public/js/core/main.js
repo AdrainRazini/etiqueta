@@ -697,3 +697,5 @@ ADN.register("load", {
     type:"ui",
     run:runLoading
 });
+
+console.log(ADN);

@@ -34,8 +34,6 @@ const Cache = {
 ADN.cache = Cache // Salva em App (Adn)
 ADN["App"] = {};
 
-console.log(ADN);
-
-
 //Cache.set("etiqueta",{})
 //Cache.clear()
+//console.log(ADN);
