@@ -441,6 +441,21 @@ function abrirInfoServer(){
                         window.location.href = `index_pdf.html`
                     }
                 }
+            },
+
+              {tag:"label", options:{text:"Servidor"}},
+
+            {
+                tag:"button",
+                options:{
+                    text:"Abrir",
+                    class:"btn cancel",
+
+                    onclick:()=>{
+                        createAlert("Abrindo Servidor...");
+                        window.location.href = `index.html`
+                    }
+                }
             }
 
         ]

@@ -9,10 +9,12 @@ const idParam = params.get("id") || ""; // "1772999205731,1773001919849"
 const ids = idParam.split(",").map(s => s.trim()).filter(Boolean);
 
 let key = {};
-try {
-    key = JSON.parse(localStorage.getItem(tipo)) || {};
-} catch(e) {
-    console.warn("Erro ao ler localStorage:", e);
+if(tipo){
+    try {
+        key = JSON.parse(localStorage.getItem(tipo)) || {};
+    } catch(e){
+        console.warn("Erro ao ler localStorage:", e);
+    }
 }
 
 const pdf_card_container = document.getElementById("pdf-card-container");
@@ -21,24 +23,65 @@ const bancosContainer = document.getElementById("data-center"); // container HTM
 // Pega todos os tipos salvos no localStorage
 const tiposDisponiveis = Object.keys(localStorage);
 
+function createobj(tag, options = {}) {
 
-function createobj(tag, options = {}, callback = {}) {
     const el = document.createElement(tag);
+
     Object.entries(options).forEach(([key,value])=>{
-        if(key === "class") el.classList.add(...value.split(" "));
-        else if(key === "text") el.textContent = value;
-        else if(key === "options" && tag === "select") {
+
+        if(key === "class"){
+            el.classList.add(...value.split(" "));
+        }
+
+        else if(key === "text"){
+            el.textContent = value;
+        }
+
+        else if(key === "html"){
+            el.innerHTML = value;
+        }
+
+        // suporte a eventos
+        else if(key.startsWith("on") && typeof value === "function"){
+
+            const event = key.substring(2); // onclick → click
+            el.addEventListener(event,value);
+
+        }
+
+        else if(key === "options" && tag === "select"){
+
             value.forEach(opt=>{
+
                 const option = document.createElement("option");
-                if(typeof opt === "string") option.value = option.textContent = opt;
-                else { option.value = opt.value; option.textContent = opt.text; }
+
+                if(typeof opt === "string"){
+                    option.value = opt;
+                    option.textContent = opt;
+                }else{
+                    option.value = opt.value;
+                    option.textContent = opt.text;
+                }
+
                 el.appendChild(option);
+
             });
-        } else el[key] = value;
+
+        }
+
+        else{
+            el[key] = value;
+        }
+
     });
-    el.addEventListener("input", ()=> el.classList.remove("input-error"));
+
+    el.addEventListener("input", ()=>{
+        el.classList.remove("input-error");
+    });
+
     return el;
 }
+
 
 
 // função para escapar HTML (segurança)
@@ -92,7 +135,7 @@ btnPdf.addEventListener("click", () => {
         },
 
         onNo:()=>{
-            
+             ADN.run("alert",{text:"no"})
         }
 
     });
@@ -135,10 +178,16 @@ if(ids.length > 0){
 }
 
 // --- Renderização da lista de bancos disponíveis (apenas se não houver tipo na URL) ---
-if(!tipo && bancosContainer){
-    tiposDisponiveis.forEach(tipoBanco => {
-        bancosContainer.appendChild(bancoCardItem(tipoBanco));
-    });
+// Renderização da lista de bancos disponíveis
+if(!tipo){
+    if(bancosContainer){
+        tiposDisponiveis.forEach(tipoBanco => {
+            bancosContainer.appendChild(bancoCardItem(tipoBanco));
+        });
+    }else{
+        ADN.run("alert",{text:"Sem dados"})
+    }
+
 }
 
 // função para gerar PDF usando print (simples)
