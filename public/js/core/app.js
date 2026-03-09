@@ -16,54 +16,62 @@ const ADN = {
     // usando conceitos de nóss ou Plugs
     register(name, args = {}) {
 
-        const type = args.type || "module";
+    if(this.modules[name]){
+    console.warn("Modulo já registrado:", name);
+    }
 
-        const module = {
-            name,
-            type,
-            open: args.open || null,
-            run: args.run || null,
-            ...args
-        };
+    if(typeof args === "function"){
+        args = { run: args };
+    }
 
-        this.modules[name] = module;
+    const type = args.type || "module";
 
-        switch(type){
+    const module = {
+        name,
+        type,
+        open: args.open || null,
+        run: args.run || null,
+        ...args
+    };
 
-            case "modal":
-                this.modals[name] = module;
-            break;
+    this.modules[name] = module;
 
-            case "ui":
-                this.ui[name] = module;
-            break;
+    switch(type){
 
-            case "form":
-                this.forms[name] = module;
-            break;
+        case "modal":
+            this.modals[name] = module;
+        break;
 
-        }
+        case "ui":
+            this.ui[name] = module;
+        break;
+
+        case "form":
+            this.forms[name] = module;
+        break;
+
+    }
 
     },
 
-    run(name){
+    run(name, data = null){
 
-        const mod = this.modules[name];
+    const mod = this.modules[name];
 
-        if(!mod){
-            console.warn("Modulo não encontrado:", name);
-            return;
-        }
-
-        if(typeof mod.open === "function"){
-            mod.open();
-        }
-
-        if(typeof mod.run === "function"){
-            mod.run();
-        }
-
+    if(!mod){
+        console.warn("Modulo não encontrado:", name);
+        return;
     }
+
+    if(typeof mod.open === "function"){
+        mod.open(data);
+    }
+
+    if(typeof mod.run === "function"){
+        mod.run(data);
+    }
+
+}
 
 };
 

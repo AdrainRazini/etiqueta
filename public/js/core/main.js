@@ -4,10 +4,18 @@ import ADN from "./app.js";
 
 
 /* S Alert */
-function createAlert({ text = "", duration = 3000 }) {
+function createAlert(args = {}) {
+
+    if(typeof args === "string"){
+        args = { text: args };
+    }
+
+    const { text = "", duration = 3000 } = args;
+
     const alertEl = document.createElement("div");
     alertEl.className = "custom-alert";
     alertEl.textContent = text;
+
     document.body.appendChild(alertEl);
 
     setTimeout(() => alertEl.classList.add("show"), 10);
@@ -165,20 +173,7 @@ function createToolBarTemplate(arg={}){
 LOADING SYSTEM
 ========================= */
 
-const steps = [
-    "Inicializando sistema...",
-    "Carregando módulos...",
-    "Conectando APIs...",
-    "Sincronizando dados...",
-    "Preparando interface...",
-    "Sistema pronto"
-];
-
-/* =========================
-START SYSTEM
-========================= */
-
-function runLoading({ steps, loadingEl, textEl, progressEl, imageEl, toolbarEl, onFinish }) {
+function runLoading({ steps, loadingEl, textEl, progressEl, imageEl, toolbarEl, onFinish, num}) {
     let step = 0;
 
     loadingEl.classList.add("show");
@@ -209,23 +204,14 @@ function runLoading({ steps, loadingEl, textEl, progressEl, imageEl, toolbarEl, 
 
         // Anima imagem
         if(imageEl){
-            imageEl.style.transform = "scale(1.08)";
+            imageEl.style.transform = "scale(1.02)";
             setTimeout(()=> imageEl.style.transform = "scale(1)", 300);
         }
 
         step++;
-    }, 900);
+    }, num);
 }
 
-runLoading({
-    steps,
-    loadingEl: document.getElementById("loading-screen"),
-    textEl: document.getElementById("loading-text"),
-    progressEl: document.getElementById("loading-progress"),
-    imageEl: document.getElementById("loading-image"),
-    toolbarEl: document.getElementById("toolbar-tab"),
-    onFinish: ()=> console.log("Sistema carregado!")
-});
 
 
 // Sistema Modal de Informação
@@ -258,9 +244,23 @@ function createobj(tag, options = {}) {
         if(key === "class"){
             el.classList.add(...value.split(" "));
         }
+
         else if(key === "text"){
             el.textContent = value;
         }
+
+        else if(key === "html"){
+            el.innerHTML = value;
+        }
+
+        // suporte a eventos
+        else if(key.startsWith("on") && typeof value === "function"){
+
+            const event = key.substring(2); // onclick → click
+            el.addEventListener(event,value);
+
+        }
+
         else if(key === "options" && tag === "select"){
 
             value.forEach(opt=>{
@@ -280,6 +280,7 @@ function createobj(tag, options = {}) {
             });
 
         }
+
         else{
             el[key] = value;
         }
@@ -297,6 +298,7 @@ function createobj(tag, options = {}) {
 function openModal(args = {}) {
 
     modalCallback = args.onConfirm || null;
+    
 
     titleEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${args.title || "Informações"}`;
 
@@ -411,14 +413,29 @@ SenderBtn.addEventListener("click", ()=>{
 
 // Funções
 function abrirInfoServer(){
+
     openModal({
         title:"Central ADN Core System",
         text:"Engine carregada com sucesso",
-        //image:"image/fa_ADN_Loading_Mod.png",
         textsub:"Servidor Ativo",
+
         inputs:[
+
             {tag:"label", options:{text:"Arquivos"}},
-            {tag:"button", options:{ text: "Abrir", class: "btn cancel" }},
+
+            {
+                tag:"button",
+                options:{
+                    text:"Abrir",
+                    class:"btn cancel",
+
+                    onclick:()=>{
+                        createAlert("Abrindo arquivos...");
+                        window.location.href = `index_pdf.html`
+                    }
+                }
+            }
+
         ]
     });
 
@@ -570,15 +587,23 @@ inputs:[
 ],
 
     //Confimação Print
-onConfirm:(dados)=>{
+    onConfirm:(dados)=>{
 
-  const etiquetas = ADN.cache.get("etiquetas") || {};
+    createConfirm({
+        text:"Deseja salvar esta etiqueta?",
+        onYes:()=>{
 
-  const id = Date.now();
+            const etiquetas = ADN.cache.get("etiquetas") || {};
 
-  etiquetas[id] = dados;
+            const id = Date.now();
 
-  ADN.cache.set("etiquetas", etiquetas);
+            etiquetas[id] = dados;
+
+            ADN.cache.set("etiquetas", etiquetas);
+
+            createAlert({text:"Etiqueta criada com sucesso"});
+        }
+    });
 
 }
 
@@ -635,3 +660,18 @@ buttons.forEach(btn => {
 
 });
 
+
+ADN.register("alert", {
+    type:"ui",
+    run:createAlert
+});
+
+ADN.register("confirm", {
+    type:"ui",
+    run:createConfirm
+});
+
+ADN.register("load", {
+    type:"ui",
+    run:runLoading
+});

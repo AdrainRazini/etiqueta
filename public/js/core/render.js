@@ -1,3 +1,5 @@
+import ADN from "./app.js";
+
 const params = new URLSearchParams(window.location.search);
 
 // tipo: etiquetas
@@ -75,11 +77,26 @@ function createCard(data, id){
     card.appendChild(createobj("p", { text: `Destino: ${escapeHtml(data.cidade_destino)} - ${escapeHtml(data.uf_destino)}` }));
     card.appendChild(createobj("p", { text: `Obs: ${escapeHtml(data.obs || '-')}` }));
 
-    const btnPdf = createobj("button", { text: "Gerar PDF", class: "modal-input btn-oculte" });
-    btnPdf.addEventListener("click", () => {
-        const escolha = confirm("Deseja imprimir todas as etiquetas deste volume?\nOK = todas\nCancelar = apenas 1");
-        const Qtd = escolha ? data.volume : 1;
-        generatePDF(card, { Qtd });
+ const btnPdf = createobj("button", { 
+    text: "Gerar PDF", 
+    class: "modal-input btn-oculte" 
+});
+
+btnPdf.addEventListener("click", () => {
+
+    ADN.run("confirm",{
+        text:"Deseja imprimir todas as etiquetas deste volume?",
+
+        onYes:()=>{
+            generatePDF(card, { Qtd: data.volume });
+        },
+
+        onNo:()=>{
+            
+        }
+
+    });
+
     });
 
     card.appendChild(btnPdf);
