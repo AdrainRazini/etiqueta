@@ -138,7 +138,18 @@
    --modal-input-valid-border:2px solid #4dff53;
    --modal-input-valid-bg:#00000085;
 
+   
+    /* Custon Alert */
+    --custom-alert-position: top;
+    --custom-alert-bg: #00a2ff;
+    --custom-alert-color: #ffffff;
+    --custom-alert-radius: 6px;
+    --custom-alert-padding: 12px 24px;
 
+    /* Confirm */
+    --custom-confirm-bg: #111;
+    --custom-confirm-overlay: rgba(0,0,0,0.6);
+    --custom-confirm-radius: 10px;
 }
 
 /* ========================
@@ -530,25 +541,28 @@ gap:10px;
 
 }
 
-/* Auxiliares de Planilhas */
-
-
-
+/* Auxiliares de Alerta */
 
 .custom-alert {
+
     position: fixed;
-    top: 20px;
+
     left: 50%;
+
+    top: var(--custom-alert-top, 20px);
+    bottom: var(--custom-alert-bottom, auto);
+
     transform: translateX(-50%) translateY(-20px);
-    background: #00a2ff;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 6px;
+
+    background: var(--custom-alert-bg);
+    color: var(--custom-alert-color);
+    padding: var(--custom-alert-padding);
+    border-radius: var(--custom-alert-radius);
+
     opacity: 0;
     transition: all 0.3s ease;
     z-index: 9999;
 }
-
 .custom-alert.show {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -557,7 +571,7 @@ gap:10px;
 .custom-confirm-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: var(--custom-confirm-overlay);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -565,9 +579,9 @@ gap:10px;
 }
 
 .custom-confirm-box {
-    background: #111;
+    background: var(--custom-confirm-bg);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: var(--custom-confirm-radius);
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -585,4 +599,3 @@ gap:10px;
     border-radius: 6px;
     cursor: pointer;
 }
-
