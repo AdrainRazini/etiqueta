@@ -1,76 +1,169 @@
+import ADN from "./app.js";
+
+// Função para criar o templates de html
+
+
+/* S Alert */
+function createAlert({ text = "", duration = 3000 }) {
+    const alertEl = document.createElement("div");
+    alertEl.className = "custom-alert";
+    alertEl.textContent = text;
+    document.body.appendChild(alertEl);
+
+    setTimeout(() => alertEl.classList.add("show"), 10);
+
+    setTimeout(() => {
+        alertEl.classList.remove("show");
+        setTimeout(() => alertEl.remove(), 500);
+    }, duration);
+}
+
+function createConfirm({ text = "", onYes = null, onNo = null }) {
+    const overlay = document.createElement("div");
+    overlay.className = "custom-confirm-overlay";
+
+    const box = document.createElement("div");
+    box.className = "custom-confirm-box";
+
+    const p = document.createElement("p");
+    p.textContent = text;
+
+    const btnYes = document.createElement("button");
+    btnYes.textContent = "Sim";
+    btnYes.className = "confirm-btn";
+
+    const btnNo = document.createElement("button");
+    btnNo.textContent = "Não";
+    btnNo.className = "cancel-btn";
+
+    btnYes.addEventListener("click", () => {
+        if(onYes) onYes();
+        overlay.remove();
+    });
+
+    btnNo.addEventListener("click", () => {
+        if(onNo) onNo();
+        overlay.remove();
+    });
+
+    box.appendChild(p);
+    box.appendChild(btnYes);
+    box.appendChild(btnNo);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+}
+
+// Exemplo de alerta
+// createAlert({ text: "Sistema carregado com sucesso!" });
+
+// Exemplo de confirm
+// createConfirm({text: "Deseja salvar as alterações?",onYes: () => console.log("Salvo!"),onNo: () => console.log("Cancelado!")});
+
+
+//Loading
+function createLoadingScreen(arg={}) {
+    // Container principal
+    const loadingScreen = createobj("div", { id: "loading-screen" });
+
+    // Logo / imagem
+    const logo = createobj("img", {
+        src: "image/fa_ADN_Loading_Mod.png",
+        class: "logo",
+        id: "loading-image"
+    });
+    loadingScreen.appendChild(logo);
+
+    // Slider / barra de progresso
+    const slider = createobj("div", { class: "slider" });
+    const progress = createobj("div", { class: "progress", id: "loading-progress" });
+    slider.appendChild(progress);
+    loadingScreen.appendChild(slider);
+
+    // Texto de loading
+    const loadingText = createobj("p", { class: "loading-text", id: "loading-text" });
+    loadingText.innerHTML = '<i class="fa-solid fa-microchip"></i> Inicializando sistema...';
+    loadingScreen.appendChild(loadingText);
+
+    // Adiciona ao body
+    document.body.appendChild(loadingScreen);
+
+    return { loadingScreen, logo, progress, loadingText };
+}
+// Modal
+function createModalTemplate(arg={}) {
+    // Overlay
+    const overlay = createobj("div", { id: "modal-overlay", class: "modal-overlay" });
+
+    // Janela principal
+    const modalWindow = createobj("div", { class: "modal-window" });
+    overlay.appendChild(modalWindow);
+
+    // Header
+    const header = createobj("div", { class: "modal-header" });
+    modalWindow.appendChild(header);
+
+    header.appendChild(createobj("h2", { id: "modal-title", html: '<i class="fa-solid fa-circle-info"></i> Criar Etiqueta' }));
+
+    const closeBtn = createobj("button", { id: "modal-close", class: "modal-close", html: '<i class="fa-solid fa-xmark"></i>' });
+    header.appendChild(closeBtn);
+    closeBtn.addEventListener("click", () => overlay.remove());
+
+    // Body
+    const body = createobj("div", { class: "modal-body", id: "modal-body" });
+    modalWindow.appendChild(body);
+
+    const text = createobj("p", { id: "modal-text" });
+    body.appendChild(text);
+
+    const image = createobj("img", { id: "modal-image", class: "modal-image", style: "display:none;" });
+    body.appendChild(image);
+
+    const inputsContainer = createobj("div", { id: "modal-inputs" });
+    body.appendChild(inputsContainer);
+
+    const textSub = createobj("p", { id: "modal-text-sub" });
+    body.appendChild(textSub);
+
+    // Footer
+    const footer = createobj("div", { class: "modal-footer" });
+    modalWindow.appendChild(footer);
+
+    const btnCancel = createobj("button", { class: "btn cancel", id: "btn_cancel", text: "Cancelar" });
+    footer.appendChild(btnCancel);
+    btnCancel.addEventListener("click", () => overlay.remove());
+
+    const btnConfirm = createobj("button", { class: "btn confirm", id: "btn_confirm", text: "Confirmar" });
+    footer.appendChild(btnConfirm);
+
+    // Adiciona o modal ao body
+    document.body.appendChild(overlay);
+
+    return {
+        overlay,
+        modalWindow,
+        header,
+        body,
+        text,
+        image,
+        inputsContainer,
+        textSub,
+        btnCancel,
+        btnConfirm,
+        closeBtn
+    };
+}
+
+// ToolBar
+function createToolBarTemplate(arg={}){
+
+}
+
+//createLoadingScreen();
+
+
 /* =========================
 LOADING SYSTEM
 ========================= */
- 
-
-// Exportação de Dados
-const ADN = {
-    name: "ADN Core",
-    version: "3.0.1",
-
-    // Resumo de Func (acelerar interação com importação e Exportação)
-    modules: {}, // criação e armazem de nome,func
-    modals: {}, // modulos registro principal
-    ui: {}, // Interface
-    forms: {}, // formulários dinâmicos (para Clientes)
-    templates: {}, // Templates 
-    func:{}, // func externas
-    cache:{}, // Memory app
-
-    // usando conceitos de nóss ou Plugs
-    register(name, args = {}) {
-
-        const type = args.type || "module";
-
-        const module = {
-            name,
-            type,
-            open: args.open || null,
-            run: args.run || null,
-            ...args
-        };
-
-        this.modules[name] = module;
-
-        switch(type){
-
-            case "modal":
-                this.modals[name] = module;
-            break;
-
-            case "ui":
-                this.ui[name] = module;
-            break;
-
-            case "form":
-                this.forms[name] = module;
-            break;
-
-        }
-
-    },
-
-    run(name){
-
-        const mod = this.modules[name];
-
-        if(!mod){
-            console.warn("Modulo não encontrado:", name);
-            return;
-        }
-
-        if(typeof mod.open === "function"){
-            mod.open();
-        }
-
-        if(typeof mod.run === "function"){
-            mod.run();
-        }
-
-    }
-
-};
-
 
 const steps = [
     "Inicializando sistema...",
@@ -81,86 +174,57 @@ const steps = [
     "Sistema pronto"
 ];
 
-const loading = document.getElementById("loading-screen");
-const text = document.getElementById("loading-text");
-const progress = document.getElementById("loading-progress");
-const image = document.getElementById("loading-image");
-
-const toolbar_tab = document.getElementById("toolbar-tab");
-
-let step = 0;
-
-
-/* =========================
-NEXT STEP
-========================= */
-
-function nextStep(){
-
-    if(step >= steps.length){
-        finishLoading();
-        return;
-    }
-
-    text.innerHTML = `
-        <i class="fa-solid fa-microchip"></i>
-        ${steps[step]}
-    `;
-
-    progress.style.width = ((step + 1) / steps.length) * 100 + "%";
-
-    image.style.transform = "scale(1.08)";
-
-    setTimeout(()=>{
-        image.style.transform = "scale(1)";
-    },300);
-
-    step++;
-
-    setTimeout(nextStep,900);
-
-}
-
-
-/* =========================
-FINISH LOADING
-========================= */
-
-function finishLoading(){
-
-    loading.classList.remove("show");
-    loading.classList.add("hide");
-
-    setTimeout(()=>{
-
-        loading.style.display = "none";
-
-        // MOSTRAR TOOLBAR
-        if(toolbar_tab){
-            toolbar_tab.classList.add("show");
-        }
-
-    },800);
-
-}
-
-
 /* =========================
 START SYSTEM
 ========================= */
 
-window.addEventListener("load",()=>{
+function runLoading({ steps, loadingEl, textEl, progressEl, imageEl, toolbarEl, onFinish }) {
+    let step = 0;
 
-    loading.classList.add("show");
+    loadingEl.classList.add("show");
+    if(toolbarEl) toolbarEl.classList.remove("show");
 
-    if(toolbar_tab){
-        toolbar_tab.classList.remove("show");
-    }
+    const interval = setInterval(() => {
+        if(step >= steps.length){
+            clearInterval(interval);
+            
+            // Esconde loading
+            loadingEl.classList.remove("show");
+            loadingEl.classList.add("hide");
 
-    setTimeout(()=>{
-        nextStep();
-    },700);
+            setTimeout(()=>{
+                loadingEl.style.display = "none";
+                if(toolbarEl) toolbarEl.classList.add("show");
+                if(onFinish) onFinish();
+            }, 800);
 
+            return;
+        }
+
+        // Atualiza texto
+        textEl.innerHTML = `<i class="fa-solid fa-microchip"></i> ${steps[step]}`;
+
+        // Atualiza progresso
+        progressEl.style.width = ((step+1)/steps.length) * 100 + "%";
+
+        // Anima imagem
+        if(imageEl){
+            imageEl.style.transform = "scale(1.08)";
+            setTimeout(()=> imageEl.style.transform = "scale(1)", 300);
+        }
+
+        step++;
+    }, 900);
+}
+
+runLoading({
+    steps,
+    loadingEl: document.getElementById("loading-screen"),
+    textEl: document.getElementById("loading-text"),
+    progressEl: document.getElementById("loading-progress"),
+    imageEl: document.getElementById("loading-image"),
+    toolbarEl: document.getElementById("toolbar-tab"),
+    onFinish: ()=> console.log("Sistema carregado!")
 });
 
 
@@ -178,6 +242,10 @@ const imageEl = document.getElementById("modal-image");
 const inputsEl = document.getElementById("modal-inputs");
 
 const textSubEl = document.getElementById("modal-text-sub");
+
+
+
+/* Criação Dinamica */
 
 let modalCallback = null;
 
@@ -269,7 +337,7 @@ modal.addEventListener("keydown", (e)=>{
 
 }
 
-function closeModal(){
+function closeModal(args = {}){
 
     inputsEl.innerHTML = "";
     textEl.textContent = "";
@@ -315,12 +383,14 @@ function getModalData(){
     });
 
     if(!valid){
-        alert("Preencha os campos obrigatórios.");
+        //alert("Preencha os campos obrigatórios.");
+        createAlert({ text: "Preencha os campos obrigatórios." });
         return null;
     }
 
     return dados;
 }
+
 
 // Enviar Dados
 SenderBtn.addEventListener("click", ()=>{
@@ -337,12 +407,19 @@ SenderBtn.addEventListener("click", ()=>{
 
 });
 
+
+
+// Funções
 function abrirInfoServer(){
     openModal({
         title:"Central ADN Core System",
         text:"Engine carregada com sucesso",
-        image:"image/fa_ADN_Loading_Mod.png",
-        textsub:"Servidor Ativo"
+        //image:"image/fa_ADN_Loading_Mod.png",
+        textsub:"Servidor Ativo",
+        inputs:[
+            {tag:"label", options:{text:"Arquivos"}},
+            {tag:"button", options:{ text: "Abrir", class: "btn cancel" }},
+        ]
     });
 
 }
@@ -478,7 +555,7 @@ inputs:[
 { tag:"label", options:{text:"Origem"} },
 { tag:"input", options:{name:"origem", type:"text", class:"modal-input",placeholder:"Endereço de Origem",required:true} },
 { tag:"select",options:{name:"uf_origem", id:"uf-origem",class:"modal-input",required:true}},
-{ tag:"select",options:{name:"cidade_origem:", id:"cidade-origem",class:"modal-input",required:true}},
+{ tag:"select",options:{name:"cidade_origem", id:"cidade-origem",class:"modal-input",required:true}},
 
 // Destino
 { tag:"label", options:{text:"Destino"} },
@@ -558,59 +635,3 @@ buttons.forEach(btn => {
 
 });
 
-
-/* Conexões de App */ 
-// Test de Registros
-
-// type define local
-// open define func
-
-ADN.register("etiqueta", {
-    open: abrirEtiqueta,
-    type: "modal"
-});
-
-ADN.templates = {
-
-    label(text){
-        return { tag:"label", options:{ text } };
-    },
-
-    input(name, placeholder="", required=false){
-        return {
-            tag:"input",
-            options:{
-                name,
-                type:"text",
-                class:"modal-input",
-                placeholder,
-                required
-            }
-        };
-    },
-
-    textarea(name){
-        return {
-            tag:"textarea",
-            options:{
-                name,
-                class:"modal-input"
-            }
-        };
-    },
-
-    link(url){
-    return {
-        tag:"a",
-        options:{
-            href:url,
-            text:url,
-            target:"_blank",
-            class:"modal-link"
-        }
-    };
-}
-};
-
-// Script.js tem que ser em ESModule ou Type:"Module" (type="module") em .json ou .html
-export default ADN

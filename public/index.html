@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="css/core-root.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/pages_screen.css">
-<link rel="stylesheet" href="css/layout_pdf.css" media="print">
+<link rel="stylesheet" href="css/layout_pdf.css">
 </head>
 
 <!--  Html Modular com app.js e api.js  -->
@@ -119,10 +119,12 @@
 
 
 <!-- area de Impressão (Evita Printar tela) -->
-<div class="print-area" id="print-area"></div>
+<div class="print-area" id="print-area">
+    <p id="print-infon-area" >Esta Pagina não pode ser Impresa</p>
+</div>
 
 <!-- Usa outros -->
-<script type="module" src="js/main.js"></script>
+<script type="module" src="js/pages/index.js"></script>
 
 </body>
 </html>

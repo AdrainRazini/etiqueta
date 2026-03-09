@@ -532,3 +532,57 @@ gap:10px;
 
 /* Auxiliares de Planilhas */
 
+
+
+
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: #00a2ff;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.custom-alert.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.custom-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9998;
+}
+
+.custom-confirm-box {
+    background: #111;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 300px;
+}
+
+.custom-confirm-box p {
+    color: #fff;
+    font-size: 16px;
+}
+
+.custom-confirm-box button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+

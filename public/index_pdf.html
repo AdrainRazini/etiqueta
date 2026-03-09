@@ -6,14 +6,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documento_pdf</title>
+    <link rel="shortcut icon" href="image/fa_ADN_Loading_Mod.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="css/pages_screen.css">
     <link rel="stylesheet" href="css/layout_pdf.css">
+
 </head>
 <body>
     
-<div class="pdf-card">
+
+<!-- LOADING -->
+<div id="loading-screen">
+
+    <img 
+        src="image/fa_ADN_Loading_Mod.png"
+        class="logo"
+        id="loading-image"
+    >
+
+    <div class="slider">
+        <div class="progress" id="loading-progress"></div>
+    </div>
+
+    <p class="loading-text" id="loading-text">
+        <i class="fa-solid fa-microchip"></i>
+        Inicializando sistema...
+    </p>
 
 </div>
 
+<!-- Informação do Data -->
+<div class="data-center" id="data-center">
+</div>
+
+<!-- Informação do ids Data -->
+<div class="pdf-card-container" id="pdf-card-container">
+</div>
+
+
+
+<!-- INTERFACE De Ferramentas -->
+<div class="toolbar" id="toolbar-tab">
+
+    <div class="tool_info_bar"></div>
+
+    <button data-action="server" data-label="Servidor">
+        <i class="fa-solid fa-server"></i>
+    </button>
+
+    <button data-action="chat" data-label="Chat Bot">
+        <i class="fa-solid fa-robot"></i>
+    </button>
+
+    <button data-action="config" data-label="Configurações">
+        <i class="fa-solid fa-gear"></i>
+    </button>
+
+</div>
+
+<!-- INTERFACE Preenchimento de Dados -->
+<div id="modal-overlay" class="modal-overlay">
+
+    <div class="modal-window">
+
+        <div class="modal-header">
+
+            <h2 id="modal-title" >
+                <i class="fa-solid fa-circle-info"></i>
+                Informações
+            </h2>
+
+            <button class="modal-close" id="modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <div class="modal-body" id="modal-body">
+
+            <p id="modal-text">
+                Este é um exemplo de modal de informação para o sistema ADN.
+            </p>
+
+            <img src="image/fa_ADN_Loading_Mod.png" class="modal-image" id="modal-image">
+
+            <div id="modal-inputs"></div>
+
+            <p id="modal-text-sub">
+                Este é um exemplo de modal do sistema ADN. (Em Teste)
+            </p>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button class="btn cancel" id="btn_cancel">Cancelar</button>
+            <button class="btn confirm" id="btn_confirm">Confirmar</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- area de Impressão (Evita Printar tela) -->
+<div class="print-area" id="print-area">
+    <p id="print-infon-area" >Esta Pagina não pode ser Impresa</p>
+</div>
+
+<script type="module" src="js/pages/index_pdf.js"></script>
 
 </body>
 </html>

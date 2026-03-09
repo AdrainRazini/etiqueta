@@ -22,25 +22,71 @@
 
 }
 
-body{
-    font-family:var(--pdf-font-family);
-    font-size:var(--pdf-font-size-base);
-    color:var(--pdf-font-color);
-    background:var(--pdf-page-bg);
+
+/* NORMAL SCREEN */
+
+.print-area{
+display:none;
 }
 
-@page{
-    size:var(--pdf-page-size);
-    margin:var(--pdf-page-margin);
-}
+/* PRINT MODE */
 
 @media print{
 
+body{
+background:var(--pdf-page-bg);
+margin:0;
+}
+
+/* esconder interface */
 #loading-screen,
+#oculte-obj,
 .toolbar,
 .modal-overlay,
-.conteudos-card{
+.conteudos-card,
+.pdf-card,
+.pdf-card-container{
 display:none !important;
 }
 
+/* mostrar conteúdo de impressão */
+.print-area{
+display:block;
+}
+
+
+#print-area,
+#print-area *{
+visibility:visible;
+}
+
+#print-area{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+text-align:center;
+font-family:var(--pdf-font-family);
+font-size:16px;
+}
+
+}
+
+.pdf-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.pdf-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 200px;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.btn-oculte{
+    cursor: pointer;
 }
