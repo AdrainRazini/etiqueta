@@ -154,8 +154,10 @@ function generatePDF(card, options = {}) {
 
         // copia valores de inputs/selects
         clone.querySelectorAll("input, select, textarea").forEach(el => {
-            const original = card.querySelector(`[name="${el.name}"]`);
-            if(original) el.value = original.value;
+            if(el.name){
+             const original = card.querySelector(`[name="${el.name}"]`);
+             if(original) el.value = original.value;
+            }
         });
 
         printContent.appendChild(clone);

@@ -4,7 +4,6 @@ import "../core/api.js"
 import "../core/cache.js"
 import "../modules/cidades-brasil.js"
 
-
 import ADN from "../core/app.js";
 
  ADN.run("load",{

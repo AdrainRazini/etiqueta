@@ -26,7 +26,14 @@ function createAlert(args = {}) {
     }, duration);
 }
 
-function createConfirm({ text = "", onYes = null, onNo = null }) {
+function createConfirm(args={}) {
+
+    if(typeof args === "string"){
+        args = { text: args };
+    }
+
+    const { text = "", onYes = null, onNo = null } = args;
+
     const overlay = document.createElement("div");
     overlay.className = "custom-confirm-overlay";
 

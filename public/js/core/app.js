@@ -2,7 +2,7 @@
 // Exportação de Dados
 const ADN = {
     name: "ADN Core",
-    version: "3.1.0",
+    version: "3.2.0",
 
     // Resumo de Func (acelerar interação com importação e Exportação)
     modules: {}, // criação e armazem de nome,func
@@ -20,6 +20,7 @@ const ADN = {
     console.warn("Modulo já registrado:", name);
     }
 
+    
     if(typeof args === "function"){
         args = { run: args };
     }
