@@ -683,6 +683,27 @@ buttons.forEach(btn => {
 });
 
 
+function menu() {
+
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("toggle-menu");
+
+    if(!sidebar || !toggle) return;
+
+    toggle.onclick = () => {
+        sidebar.classList.toggle("hide");
+    };
+
+}
+
+function initUI(){
+
+    menu();
+
+}
+
+document.addEventListener("DOMContentLoaded", initUI);
+
 ADN.register("alert", {
     type:"ui",
     run:createAlert
