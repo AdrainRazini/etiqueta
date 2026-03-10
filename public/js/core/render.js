@@ -115,7 +115,7 @@ function createCard(data, id){
     card.dataset.id = id;
 
     card.appendChild(createobj("h3", { text: escapeHtml(data.nome) }));
-    card.appendChild(createobj("p", { text: `Volume: ${escapeHtml(data.volume)}` }));
+    card.appendChild(createobj("p", { text: `Volume: ${escapeHtml(data.volume)}`, class: "qtd-volume"  }));
     card.appendChild(createobj("p", { text: `Origem: ${escapeHtml(data.cidade_origem)} - ${escapeHtml(data.uf_origem)}` }));
     card.appendChild(createobj("p", { text: `Destino: ${escapeHtml(data.cidade_destino)} - ${escapeHtml(data.uf_destino)}` }));
     card.appendChild(createobj("p", { text: `Obs: ${escapeHtml(data.obs || '-')}` }));
@@ -192,26 +192,25 @@ if(!tipo){
 
 // função para gerar PDF usando print (simples)
 function generatePDF(card, options = {}) {
-    const Qtd = options.Qtd || 1;
+  
+    const totalVolumes = options.Qtd ?? 1;
     const printContent = document.createElement("div");
 
-    for (let i = 0; i < Qtd; i++) {
+    for (let i = 1; i <= totalVolumes; i++) {
+
         const clone = card.cloneNode(true);
 
-        // remove botões ocultos
         clone.querySelectorAll(".btn-oculte").forEach(el => el.remove());
 
-        // copia valores de inputs/selects
-        clone.querySelectorAll("input, select, textarea").forEach(el => {
-            if(el.name){
-             const original = card.querySelector(`[name="${el.name}"]`);
-             if(original) el.value = original.value;
-            }
-        });
+        const volumeEl = clone.querySelector(".qtd-volume");
+
+        if(volumeEl){
+            volumeEl.textContent = `Volume ${i}/${totalVolumes}`;
+        }
 
         printContent.appendChild(clone);
-    }
 
+    }
     const printWindow = window.open('', '', 'width=800,height=600');
     printWindow.document.write('<html><head><title>PDF</title>');
     printWindow.document.write('<link rel="stylesheet" href="css/layout_pdf.css">');
