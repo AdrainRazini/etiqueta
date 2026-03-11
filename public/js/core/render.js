@@ -2,24 +2,30 @@ import ADN from "./app.js";
 
 const params = new URLSearchParams(window.location.search);
 
-// tipo: etiquetas
-// id: (múltiplos separados por vírgula)
+// tipo:etiquetas id:(múltiplos separados por vírgula)
 const tipo = params.get("tipo");
 const idParam = params.get("id") || ""; // "1772999205731,1773001919849"
 const ids = idParam.split(",").map(s => s.trim()).filter(Boolean);
 
+function getStorage(key){
+    try{
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : {};
+    }catch(e){
+        console.warn("Erro ao ler localStorage:",e);
+        return {};
+    }
+}
+
 let key = {};
 if(tipo){
-    try {
-        key = JSON.parse(localStorage.getItem(tipo)) || {};
-    } catch(e){
-        console.warn("Erro ao ler localStorage:", e);
-    }
+    key = getStorage(tipo);
 }
 
 const pdf_card_container = document.getElementById("pdf-card-container");
 const print_area = document.getElementById("print-area");
 const bancosContainer = document.getElementById("data-center"); // container HTML
+
 // Pega todos os tipos salvos no localStorage
 const tiposDisponiveis = Object.keys(localStorage);
 
@@ -159,6 +165,8 @@ function bancoCardItem(tipoBanco){
     bancoCard.appendChild(btnOpen);
     return bancoCard;
 }
+
+
 
 // --- Renderização dos cards do banco selecionado ---
 if(ids.length > 0){
