@@ -176,7 +176,7 @@ onYes:()=>{
        },
 
         onNo:()=>{
-             ADN.run("alert",{text:"no"})
+            // ADN.run("alert",{text:"no"})
         }
 
     });
@@ -196,7 +196,7 @@ onYes:()=>{
         ADN.run("abrirEtiqueta",{id,data})
        },
         onNo:()=>{
-        ADN.run("alert",{text:"no"})
+        //ADN.run("alert",{text:"no"})
         }
 
     });
