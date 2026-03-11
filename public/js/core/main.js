@@ -1,7 +1,17 @@
 import ADN from "./app.js";
 
-// Função para criar o templates de html
+function getId(name){
+    const el = document.getElementById(name);
 
+    if(!el){
+        console.warn(`Elemento com id "${name}" não encontrado`);
+    }
+
+    return el;
+}
+
+
+// Função para criar o templates de html
 
 /* Alert */
 function createAlert(args = {}) {
@@ -169,13 +179,6 @@ function createModalTemplate(arg={}) {
     };
 }
 
-// ToolBar
-function createToolBarTemplate(arg={}){
-
-}
-
-//createLoadingScreen();
-
 
 /* =========================
 LOADING SYSTEM
@@ -220,22 +223,20 @@ function runLoading({ steps, loadingEl, textEl, progressEl, imageEl, toolbarEl, 
     }, num);
 }
 
-
-
 // Sistema Modal de Informação
-const modal = document.getElementById("modal-overlay");
-const closeBtn = document.getElementById("modal-close");
+const modal = getId("modal-overlay");
+const closeBtn = getId("modal-close");
 
-const SenderBtn = document.getElementById("btn_confirm");
-const CancelBtn = document.getElementById("btn_cancel");
+const SenderBtn = getId("btn_confirm");
+const CancelBtn = getId("btn_cancel");
 
-const titleEl = document.getElementById("modal-title");
-const textEl = document.getElementById("modal-text");
-const imageEl = document.getElementById("modal-image");
+const titleEl = getId("modal-title");
+const textEl = getId("modal-text");
+const imageEl = getId("modal-image");
 
-const inputsEl = document.getElementById("modal-inputs");
+const inputsEl = getId("modal-inputs");
 
-const textSubEl = document.getElementById("modal-text-sub");
+const textSubEl = getId("modal-text-sub");
 
 
 
@@ -302,71 +303,6 @@ function createobj(tag, options = {}) {
     return el;
 }
 
-
-function openModal(args = {}) {
-
-    modalCallback = args.onConfirm || null;
-    
-
-    titleEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${args.title || "Informações"}`;
-
-    textEl.textContent = args.text || "";
-    textSubEl.textContent = args.textsub || "";
-
-    if (args.image) {
-        imageEl.src = args.image;
-        imageEl.style.display = "block";
-    } else {
-        imageEl.style.display = "none";
-    }
-
-    inputsEl.innerHTML = "";
-
-    if(args.inputs){
-        args.inputs.forEach(obj => {
-            const el = createobj(obj.tag, obj.options);
-            inputsEl.appendChild(el);
-        });
-    }
-
-    modal.classList.add("show");
-
-    const firstInput = inputsEl.querySelector("input, textarea, select");
-
-    if(firstInput){
-    setTimeout(()=> firstInput.focus(),100);
-    }
-
-/* 
-modal.addEventListener("keydown", (e)=>{
-    if(e.key === "Enter"){
-        SenderBtn.click();
-    }
-});  
-*/
-
-}
-
-function closeModal(args = {}){
-
-    inputsEl.innerHTML = "";
-    textEl.textContent = "";
-    imageEl.src = "";
-
-    modal.classList.remove("show");
-
-}
-
-closeBtn.addEventListener("click", closeModal);
-CancelBtn.addEventListener("click", closeModal);
-
-modal.addEventListener("click", (e)=>{
-    if(e.target === modal){
-        closeModal();
-    }
-});
-
-// Pegar Dados
 // Pegar Dados + Validação
 function getModalData(){
 
@@ -402,8 +338,57 @@ function getModalData(){
 }
 
 
-// Enviar Dados
-SenderBtn.addEventListener("click", ()=>{
+
+
+function openModal(args = {}) {
+
+    modalCallback = args.onConfirm || null;
+    
+
+    titleEl.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${args.title || "Informações"}`;
+
+    textEl.textContent = args.text || "";
+    textSubEl.textContent = args.textsub || "";
+
+    if (args.image) {
+        imageEl.src = args.image;
+        imageEl.style.display = "block";
+    } else {
+        imageEl.style.display = "none";
+    }
+
+    inputsEl.innerHTML = "";
+
+    if(args.inputs){
+        args.inputs.forEach(obj => {
+            const el = createobj(obj.tag, obj.options);
+            inputsEl.appendChild(el);
+        });
+    }
+
+    modal.classList.add("show");
+
+    const firstInput = inputsEl.querySelector("input, textarea, select");
+
+    if(firstInput){
+    setTimeout(()=> firstInput.focus(),100);
+    }
+
+}
+
+function closeModal(args = {}){
+
+    inputsEl.innerHTML = "";
+    textEl.textContent = "";
+    imageEl.src = "";
+
+    modal.classList.remove("show");
+
+}
+
+
+    // Enviar Dados
+   SenderBtn.addEventListener("click", ()=>{
 
     const dados = getModalData();
 
@@ -415,6 +400,16 @@ SenderBtn.addEventListener("click", ()=>{
 
     closeModal();
 
+    });
+
+
+closeBtn.addEventListener("click", closeModal);
+CancelBtn.addEventListener("click", closeModal);
+
+modal.addEventListener("click", (e)=>{
+    if(e.target === modal){
+        closeModal();
+    }
 });
 
 
@@ -635,59 +630,111 @@ inputs:[
 
 }
 
+
+
 /* buttons toolbar */
-const buttons = document.querySelectorAll(".toolbar button");
-const infoBar = document.querySelector(".tool_info_bar");
 
-buttons.forEach(btn => {
+// ToolBar
 
-    const action = btn.dataset.action;
-    const label = btn.dataset.label;
+const toolbar = getId("toolbar-tab");
+const infoBar = getId("tool_info_bar");
 
-    btn.addEventListener("click", ()=>{
 
-        switch(action){
+function updateInfoBar(label){
 
-            case "server":
-                abrirInfoServer();
-            break;
+    if(!infoBar) return;
 
-            case "chat":
-                abrirChat();
-            break;
+    infoBar.textContent = label || "";
+    infoBar.classList.add("show");
 
-            case "config":
-                abrirConfigs();
-            break;
+}
 
-            case "info":
-                abrirInfoInputs();
-            break;
+function hideInfoBar(){
 
-            case "tag":
-                abrirEtiqueta();
-            break;
+    if(!infoBar) return;
 
+    infoBar.classList.remove("show");
+
+}
+
+function actionMonitor(container){
+
+    if(!container) return;
+
+    // CLICK
+    container.addEventListener("click",(e)=>{
+
+        const btn = e.target.closest("[data-action],[data-label]");
+        if(!btn || !container.contains(btn)) return;
+
+        const action = btn.dataset.action || null;
+        const label = btn.dataset.label || null;
+
+        if(action){
+            handleAction(action, btn, label);
         }
 
     });
 
-    btn.addEventListener("mouseenter", ()=>{
-        infoBar.textContent = label;
-        infoBar.classList.add("show");
+    // HOVER SHOW LABEL
+    container.addEventListener("mouseover",(e)=>{
+
+        const btn = e.target.closest("[data-label]");
+        if(!btn || !container.contains(btn)) return;
+
+        updateInfoBar(btn.dataset.label);
+
     });
 
-    btn.addEventListener("mouseleave", ()=>{
-        infoBar.classList.remove("show");
+    // HOVER LEAVE
+    container.addEventListener("mouseleave",()=>{
+        hideInfoBar();
     });
 
-});
+}
+
+function handleAction(action, el, label){
+
+    switch(action){
+
+        case "server":
+            abrirInfoServer();
+        break;
+
+        case "chat":
+            abrirChat();
+        break;
+
+        case "config":
+            abrirConfigs();
+        break;
+
+        case "info":
+            abrirInfoInputs();
+        break;
+
+        case "tag":
+            abrirEtiqueta();
+        break;
+
+        default:
+            console.warn("Ação não registrada:", action);
+
+    }
+
+}
+
+// inicia monitor somente na toolbar
+
+actionMonitor(toolbar);
+actionMonitor(getId("sidebar"));
+
 
 
 function menu() {
 
-    const sidebar = document.getElementById("sidebar");
-    const toggle = document.getElementById("toggle-menu");
+    const sidebar = getId("sidebar");
+    const toggle = getId("toggle-menu");
 
     if(!sidebar || !toggle) return;
 

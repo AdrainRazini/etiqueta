@@ -57,22 +57,22 @@
 
     <nav class="sidebar-menu">
 
-        <a href="#">
+        <a href="#" data-label="Dashboard" >
             <i class="fa-solid fa-chart-line"></i>
             <span>Dashboard</span>
         </a>
 
-        <a href="#">
+        <a href="index_pdf.html" data-label="Arquivos">
             <i class="fa-solid fa-box"></i>
-            <span>Volumes</span>
+            <span>Arquivos</span>
         </a>
 
-        <a href="index_pdf.html?tipo=etiquetas">
+        <a href="index_pdf.html?tipo=etiquetas" data-label="Etiquetas" >
             <i class="fa-solid fa-tag"></i>
             <span>Etiquetas</span>
         </a>
 
-        <a href="#">
+        <a data-action="config" data-label="Configurações" >
             <i class="fa-solid fa-gear"></i>
             <span>Configurações</span>
         </a>
@@ -92,7 +92,7 @@
 <!-- INTERFACE De Ferramentas -->
 <div class="toolbar" id="toolbar-tab">
 
-    <div class="tool_info_bar"></div>
+    <div class="tool_info_bar" id="tool_info_bar"></div>
 
     <button data-action="server" data-label="Servidor">
         <i class="fa-solid fa-server"></i>
@@ -102,16 +102,8 @@
         <i class="fa-solid fa-robot"></i>
     </button>
 
-    <button data-action="config" data-label="Configurações">
-        <i class="fa-solid fa-gear"></i>
-    </button>
-
     <button data-action="info" data-label="Informações">
         <i class="fa-solid fa-circle-info"></i>
-    </button>
-
-    <button data-action="tag" data-label="Criar Etiqueta">
-        <i class="fa-solid fa-tag"></i>
     </button>
 
 </div>

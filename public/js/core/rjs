@@ -1,10 +1,47 @@
-generatePDFData({
-  ID:"1772999205731",
-  Nome: "Test002",
-  Produto:"Caixa Arquivo",
-  Qtd:10,
-  Origem: "Curitiba - PR",
-  Destino:"Curitiba - PR",
-  Logo:Url_Logo,
-  Imagem:Url_Logo
+
+const buttons = document.querySelectorAll(".toolbar button");
+const infoBar = document.querySelector(".tool_info_bar");
+
+buttons.forEach(btn => {
+
+    const action = btn.dataset.action;
+    const label = btn.dataset.label;
+
+    btn.addEventListener("click", ()=>{
+
+        switch(action){
+
+            case "server":
+                abrirInfoServer();
+            break;
+
+            case "chat":
+                abrirChat();
+            break;
+
+            case "config":
+                abrirConfigs();
+            break;
+
+            case "info":
+                abrirInfoInputs();
+            break;
+
+            case "tag":
+                abrirEtiqueta();
+            break;
+
+        }
+
+    });
+
+    btn.addEventListener("mouseenter", ()=>{
+        infoBar.textContent = label;
+        infoBar.classList.add("show");
+    });
+
+    btn.addEventListener("mouseleave", ()=>{
+        infoBar.classList.remove("show");
+    });
+
 });

@@ -23,11 +23,14 @@ function getStorage(key){
 let key = {};
 if(tipo){
     key = getStorage(tipo);
-    console.log(key)
 }
 
 // Pega todos os tipos salvos no localStorage
-const tiposDisponiveis = Object.keys(localStorage);
+//const tiposDisponiveis = Object.keys(localStorage);
+
+// Pega filtrado no localStorage
+const tiposDisponiveis = Object.keys(localStorage)
+.filter(key => key.startsWith(prefix));
 
 const pdf_card_container = document.getElementById("pdf-card-container");
 const print_area = document.getElementById("print-area");
@@ -109,8 +112,8 @@ function resumeCard(data, id){
 
     miniCard.appendChild(createobj("h4", { text: escapeHtml(data.nome) }));
     miniCard.appendChild(createobj("p", { text: `Volume: ${escapeHtml(data.volume)}` }));
-    miniCard.appendChild(createobj("p", { text: `Origem → Destino: ${escapeHtml(data.cidade_origem)} → ${escapeHtml(data.cidade_destino)}` }));
-
+    miniCard.appendChild(createobj("p", { text: `Origem: ${escapeHtml(data.cidade_origem)} - ${escapeHtml(data.uf_origem)}` }));
+    miniCard.appendChild(createobj("p", { text: `Destino: ${escapeHtml(data.cidade_destino)} - ${escapeHtml(data.uf_destino)}` }));
     const btnOpen = createobj("button", { text: "Abrir", class: "modal-input btn-oculte" });
     btnOpen.addEventListener("click", () => {
         window.location.href = `index_pdf.html?tipo=etiquetas&id=${encodeURIComponent(id)}`;
@@ -198,28 +201,105 @@ function bancoCardItem(tipoBanco){
     return bancoCard;
 }
 
+/* Render */
+function clearRender(){
 
+    if(pdf_card_container){
+        pdf_card_container.innerHTML = "";
+    }
 
-// --- Renderização dos cards do banco selecionado ---
-if(ids.length > 0){
-    ids.forEach(id => {
-        const data = key[id];
-        if (!data) return;
+    if(print_area){
+        print_area.innerHTML = "";
+    }
 
-        const card = createCard(data, id);
-        pdf_card_container.appendChild(card);
-        print_area.appendChild(card.cloneNode(true));
-    });
-} else if(tipo){
-    Object.entries(key).forEach(([id, data]) => {
-        const miniCard = resumeCard(data, id);
-        pdf_card_container.appendChild(miniCard);
-    });
+    if(bancosContainer){
+        bancosContainer.innerHTML = "";
+    }
+
 }
 
-// --- Renderização da lista de bancos disponíveis (apenas se não houver tipo na URL) ---
-// Renderização da lista de bancos disponíveis
 
+/* Render principal */
+
+function render(){
+
+    clearRender();
+
+    if(ids.length > 0){
+
+        renderCardsPorID();
+
+    }else if(tipo){
+
+        renderCardsResumo();
+
+    }else{
+
+        renderBancos();
+
+    }
+
+}
+
+
+/* Monitor de mudanças */
+
+function monitorRender(){
+
+    let cache = JSON.stringify(key);
+
+    setInterval(()=>{
+
+        const atual = localStorage.getItem(tipo);
+
+        if(!atual) return;
+
+        if(atual !== cache){
+
+            cache = atual;
+            key = JSON.parse(atual);
+
+            render();
+
+        }
+
+    }, 500); // verifica a cada 0.5s
+
+}
+
+
+/* Renderização por ID */
+function renderCardsPorID(){
+
+    ids.forEach(id => {
+
+        const data = key[id];
+        if(!data) return;
+
+        const card = createCard(data, id);
+
+        pdf_card_container.appendChild(card);
+        print_area.appendChild(card.cloneNode(true));
+
+    });
+
+}
+
+
+/* Renderização resumo */
+function renderCardsResumo(){
+
+    Object.entries(key).forEach(([id, data]) => {
+
+        const miniCard = resumeCard(data, id);
+        pdf_card_container.appendChild(miniCard);
+
+    });
+
+}
+
+
+/* Renderização dos bancos */
 function renderBancos(){
 
     if(!bancosContainer){
@@ -232,15 +312,17 @@ function renderBancos(){
         return;
     }
 
-    tiposDisponiveis.forEach(tipoBanco => {
+    tiposDisponiveis.forEach(tipoBanco=>{
         bancosContainer.appendChild(bancoCardItem(tipoBanco));
     });
 
 }
 
-if(!tipo){
-    renderBancos();
-}
+
+/* Inicialização */
+monitorRender();
+render();
+
 
 // função para gerar PDF usando print (simples)
 function TemplateEtiqueta(Data = {}, volume = 1){

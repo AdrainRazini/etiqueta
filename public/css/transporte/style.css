@@ -1,61 +1,98 @@
-
 :root{
-    --etiqueta-width: 100%;
+
+/* LAYOUT GERAL */
+--body-font: Arial, sans-serif;
+--body-padding: 10mm;
+--grid-gap: 10mm;
+--grid-align-items:center;
+
+/* ETIQUETA */
+--etiqueta-width: 90%;
+--etiqueta-border-width: 1px;
+--etiqueta-border-color: #000;
+
+/* CELULAS */
+--cell-border-width: 3px;
+--cell-padding: 8px;
+--cell-font-size: 16px;
+
+/* HEADER */
+--header-align: center;
+--header-gap: 15px;
+
+/* LOGO */
+--logo-width: 80px;
+--logo-height: 80px;
+
+/* TITULO */
+--titulo-font-size: 22px;
+--titulo-font-weight: bold;
+
+/* IMAGEM PRODUTO */
+--produto-img-width: 120px;
+--produto-img-height: 120px;
+
+/* CODIGO */
+--codigo-align: center;
+--codigo-font-size: 28px;
+--codigo-font-weight: bold;
+--codigo-letter-spacing: 2px;
+
 }
 
 body{
-    font-family: Arial, sans-serif;
+    font-family: var(--body-font);
     margin:0;
-    padding:10mm;
+    padding:var(--body-padding);
     background:#fff;
 }
 
 .grid{
     display:flex;
     flex-direction:column;
-    gap:10mm;
+    gap:var(--grid-gap);
 }
 
 .etiqueta{
     width:var(--etiqueta-width);
-    border:3px solid #000;
+    border:var(--etiqueta-border-width) solid var(--etiqueta-border-color);
     border-collapse:collapse;
 }
 
 .etiqueta td{
-    border:1px solid #000;
-    padding:8px;
-    font-size:16px;
+    border:var(--cell-border-width) solid var(--etiqueta-border-color);
+    padding:var(--cell-padding);
+    font-size:var(--cell-font-size);
 }
 
 .header{
     display:flex;
-    align-items:center;
-    gap:15px;
+    align-items:var(--header-align);
+    gap:var(--header-gap);
 }
 
 .logo{
-    width:80px;
-    height:80px;
+    width:var(--logo-width);
+    height:var(--logo-height);
     object-fit:contain;
 }
 
 .titulo{
-    font-size:22px;
-    font-weight:bold;
+    font-size:var(--titulo-font-size);
+    font-weight:var(--titulo-font-weight);
 }
 
 .imagem-produto{
-    width:120px;
-    height:120px;
+    width:var(--produto-img-width);
+    height:var(--produto-img-height);
     object-fit:contain;
 }
 
 .codigo{
-    text-align:center;
-    font-size:28px;
-    font-weight:bold;
-    letter-spacing:2px;
+    text-align:var(--codigo-align);
+    font-size:var(--codigo-font-size);
+    font-weight:var(--codigo-font-weight);
+    letter-spacing:var(--codigo-letter-spacing);
 }
 
 @media print{
