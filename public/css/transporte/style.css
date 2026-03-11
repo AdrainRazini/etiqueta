@@ -97,10 +97,6 @@ body{
 
 @media print{
 
-body{
-    padding:0;
-}
-
 .etiqueta{
     page-break-inside:avoid;
 }

@@ -1,14 +1,6 @@
 import ADN from "./app.js";
 
 let prefix = "etiquetas"
-let Url_Logo = "https://static.wixstatic.com/media/c4bee6_62d9cb8405fe4c25b1e16cc31f57666a~mv2.png/v1/fill/w_392,h_178,al_c,lg_1,q_85,enc_avif,quality_auto/LOGO-1_edited_edited.png"
-
-const params = new URLSearchParams(window.location.search);
-
-// tipo:etiquetas id:(múltiplos separados por vírgula)
-const tipo = params.get("tipo");
-const idParam = params.get("id") || ""; // "1772999205731,1773001919849"
-const ids = idParam.split(",").map(s => s.trim()).filter(Boolean);
 
 function getStorage(key){
     try{
@@ -20,17 +12,25 @@ function getStorage(key){
     }
 }
 
+const params = new URLSearchParams(window.location.search);
+
+// tipo:etiquetas id:(múltiplos separados por vírgula)
+const tipo = params.get("tipo");
+const idParam = params.get("id") || ""; 
+const ids = idParam.split(",").map(s => s.trim()).filter(Boolean);
+
 let key = {};
 if(tipo){
     key = getStorage(tipo);
 }
 
-// Pega todos os tipos salvos no localStorage
-//const tiposDisponiveis = Object.keys(localStorage);
-
 // Pega filtrado no localStorage
 const tiposDisponiveis = Object.keys(localStorage)
 .filter(key => key.startsWith(prefix));
+
+
+// Pega todos os tipos salvos no localStorage
+//const tiposDisponiveis = Object.keys(localStorage);
 
 const pdf_card_container = document.getElementById("pdf-card-container");
 const print_area = document.getElementById("print-area");

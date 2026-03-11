@@ -418,38 +418,36 @@ modal.addEventListener("click", (e)=>{
 function abrirInfoServer(){
 
     openModal({
-        title:"Central ADN Core System",
-        text:"Engine carregada com sucesso",
-        textsub:"Servidor Ativo",
+        title: "Central ADN Core System",
+        text: "Engine carregada com sucesso",
+        textsub: "Servidor Ativo",
 
-        inputs:[
+        inputs: [
 
-            {tag:"label", options:{text:"Arquivos"}},
+            { tag:"label", options:{ text:"Arquivos" } },
 
             {
                 tag:"button",
                 options:{
                     text:"Abrir",
                     class:"btn cancel",
-
                     onclick:()=>{
                         createAlert("Abrindo arquivos...");
-                        window.location.href = `index_pdf.html`
+                        window.location.href = "index_pdf.html";
                     }
                 }
             },
 
-              {tag:"label", options:{text:"Servidor"}},
+            { tag:"label", options:{ text:"Servidor" } },
 
             {
                 tag:"button",
                 options:{
                     text:"Abrir",
                     class:"btn cancel",
-
                     onclick:()=>{
-                        createAlert("Abrindo Servidor...");
-                        window.location.href = `index.html`
+                        createAlert("Abrindo servidor...");
+                        window.location.href = "index.html";
                     }
                 }
             }
