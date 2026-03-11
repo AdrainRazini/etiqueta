@@ -3,7 +3,7 @@ import ADN from "./app.js";
 // Função para criar o templates de html
 
 
-/* S Alert */
+/* Alert */
 function createAlert(args = {}) {
 
     if(typeof args === "string"){
@@ -26,6 +26,7 @@ function createAlert(args = {}) {
     }, duration);
 }
 
+/* Alert Confirm */
 function createConfirm(args={}) {
 
     if(typeof args === "string"){
