@@ -1,0 +1,71 @@
+
+:root{
+    --etiqueta-width: 100%;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:10mm;
+    background:#fff;
+}
+
+.grid{
+    display:flex;
+    flex-direction:column;
+    gap:10mm;
+}
+
+.etiqueta{
+    width:var(--etiqueta-width);
+    border:3px solid #000;
+    border-collapse:collapse;
+}
+
+.etiqueta td{
+    border:1px solid #000;
+    padding:8px;
+    font-size:16px;
+}
+
+.header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo{
+    width:80px;
+    height:80px;
+    object-fit:contain;
+}
+
+.titulo{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.imagem-produto{
+    width:120px;
+    height:120px;
+    object-fit:contain;
+}
+
+.codigo{
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+@media print{
+
+body{
+    padding:0;
+}
+
+.etiqueta{
+    page-break-inside:avoid;
+}
+
+}

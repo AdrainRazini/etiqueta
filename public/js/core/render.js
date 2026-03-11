@@ -1,5 +1,8 @@
 import ADN from "./app.js";
 
+let prefix = "etiquetas"
+let Url_Logo = "https://static.wixstatic.com/media/c4bee6_62d9cb8405fe4c25b1e16cc31f57666a~mv2.png/v1/fill/w_392,h_178,al_c,lg_1,q_85,enc_avif,quality_auto/LOGO-1_edited_edited.png"
+
 const params = new URLSearchParams(window.location.search);
 
 // tipo:etiquetas id:(múltiplos separados por vírgula)
@@ -23,12 +26,13 @@ if(tipo){
     console.log(key)
 }
 
+// Pega todos os tipos salvos no localStorage
+const tiposDisponiveis = Object.keys(localStorage);
+
 const pdf_card_container = document.getElementById("pdf-card-container");
 const print_area = document.getElementById("print-area");
 const bancosContainer = document.getElementById("data-center"); // container HTML
 
-// Pega todos os tipos salvos no localStorage
-const tiposDisponiveis = Object.keys(localStorage);
 
 function createobj(tag, options = {}) {
 
@@ -151,9 +155,22 @@ btnPdf.addEventListener("click", () => {
     ADN.run("confirm",{
         text:"Deseja imprimir todas as etiquetas deste volume?",
 
-        onYes:()=>{
-            generatePDF(card, { Qtd: data.volume });
-        },
+onYes:()=>{
+
+    const etiquetaData = {
+        ID: id,
+        Nome: data.nome,
+        Produto:"Etiqueta",
+        Qtd: data.volume,
+        Origem: `${data.cidade_origem} - ${data.uf_origem}`,
+        Destino: `${data.cidade_destino} - ${data.uf_destino}`,
+        Logo: "image/Logo_Transcotempo_black.png",
+        Imagem: "image/Logo_Transcotempo_black.png"
+    };
+
+    generatePDFData(etiquetaData);
+
+       },
 
         onNo:()=>{
              ADN.run("alert",{text:"no"})
@@ -202,19 +219,186 @@ if(ids.length > 0){
 
 // --- Renderização da lista de bancos disponíveis (apenas se não houver tipo na URL) ---
 // Renderização da lista de bancos disponíveis
-if(!tipo){
-    if(bancosContainer){
-        tiposDisponiveis.forEach(tipoBanco => {
-            bancosContainer.appendChild(bancoCardItem(tipoBanco));
-        });
-    }else{
-        ADN.run("alert",{text:"Sem dados"})
+
+function renderBancos(){
+
+    if(!bancosContainer){
+        ADN.run("alert",{text:"Container não encontrado"});
+        return;
     }
+
+    if(tiposDisponiveis.length === 0){
+        ADN.run("alert",{text:"Sem dados"});
+        return;
+    }
+
+    tiposDisponiveis.forEach(tipoBanco => {
+        bancosContainer.appendChild(bancoCardItem(tipoBanco));
+    });
 
 }
 
+if(!tipo){
+    renderBancos();
+}
+
 // função para gerar PDF usando print (simples)
-function generatePDF(card, options = {}) {
+function TemplateEtiqueta(Data = {}, volume = 1){
+
+    const table = createobj("table",{class:"etiqueta"});
+
+    // HEADER
+    const headerRow = createobj("tr");
+    const headerCell = createobj("td",{colSpan:3});
+
+    const header = createobj("div",{class:"header"});
+
+    const logo = createobj("img",{
+        class:"logo",
+        src: Data.Logo || ""
+    });
+
+    const titulo = createobj("div",{
+        class:"titulo",
+        text:"ETIQUETA DE IDENTIFICAÇÃO"
+    });
+
+    header.append(logo,titulo);
+    headerCell.appendChild(header);
+    headerRow.appendChild(headerCell);
+
+    // ROW PRODUTO
+    const row1 = createobj("tr");
+
+    const imgCell = createobj("td",{
+        rowSpan:4
+    });
+
+    imgCell.style.width = "140px";
+    imgCell.style.textAlign = "center";
+
+    const img = createobj("img",{
+        class:"imagem-produto",
+        src: Data.Imagem || ""
+    });
+
+    imgCell.appendChild(img);
+
+    const idTitle = createobj("td",{html:"<strong>Nome:</strong>"});
+    const idValue = createobj("td",{text:Data.Nome || ""});
+
+    row1.append(imgCell,idTitle,idValue);
+
+
+        // VOLUME
+    const row2 = createobj("tr");
+    row2.append(
+        createobj("td",{html:"<strong>Volume</strong>"}),
+        createobj("td",{text:`${volume} / ${Data.Qtd || 1}`})
+    );
+
+    // Origem
+    const row3 = createobj("tr");
+    row3.append(
+        createobj("td",{html:"<strong>Origem</strong>"}),
+        createobj("td",{text:Data.Origem || ""})
+    );
+
+    // DESTINO
+    const row4 = createobj("tr");
+    row4.append(
+        createobj("td",{html:"<strong>Destino</strong>"}),
+        createobj("td",{text:Data.Destino || ""})
+    );
+
+    // CODIGO
+    const row5 = createobj("tr");
+    const code = createobj("td",{
+        colSpan:3,
+        class:"codigo",
+        text:`#${Data.ID || ""}`
+    });
+
+    row5.appendChild(code);
+
+    table.append(headerRow,row1,row2,row3,row4,row5);
+
+    return table;
+}
+
+function generatePDFData(Data = {}) {
+
+    const totalVolumes = Number(Data.Qtd) || 1;
+    const grid = createobj("div",{class:"grid"});
+
+    for(let i=1;i<=totalVolumes;i++){
+        grid.appendChild(TemplateEtiqueta(Data,i));
+    }
+
+    const printWindow = window.open('', '', 'width=800,height=600');
+    const cssUrl = "css/transporte/style.css";
+
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>PDF</title>
+            <link rel="stylesheet" href="${cssUrl}">
+        </head>
+        <body></body>
+        </html>
+    `);
+
+    printWindow.document.close();
+
+    const waitLoad = () => {
+
+        const images = printWindow.document.images;
+
+        let loaded = 0;
+
+        if(images.length === 0){
+            startPrint();
+            return;
+        }
+
+        for(let img of images){
+
+            if(img.complete){
+                loaded++;
+            }else{
+                img.onload = img.onerror = () => {
+                    loaded++;
+                    if(loaded === images.length){
+                        startPrint();
+                    }
+                };
+            }
+
+        }
+
+        if(loaded === images.length){
+            startPrint();
+        }
+
+    };
+
+    const startPrint = () => {
+
+        setTimeout(()=>{
+            printWindow.print();
+        },200);
+
+    };
+
+    // adiciona conteúdo
+    printWindow.document.body.appendChild(grid);
+
+    // espera renderização
+    setTimeout(waitLoad,100);
+
+}
+
+function generatePDFcard(card, options = {}) {
   
     const totalVolumes = Number(options.Qtd) || 1;
     const printContent = document.createElement("div");
@@ -236,10 +420,16 @@ function generatePDF(card, options = {}) {
     }
     const printWindow = window.open('', '', 'width=800,height=600');
     printWindow.document.write('<html><head><title>PDF</title>');
-    printWindow.document.write('<link rel="stylesheet" href="css/layout_pdf.css">');
+    printWindow.document.write('<link rel="stylesheet" href="css/transporte/style.css">');
     printWindow.document.write('</head><body>');
     printWindow.document.write(printContent.innerHTML);
     printWindow.document.write('</body></html>');
     printWindow.document.close();
-    printWindow.print();
+   
+    // espera tudo carregar
+    printWindow.onload = () => {
+        setTimeout(() => {
+            printWindow.print();
+        }, 200);
+    };
 }
