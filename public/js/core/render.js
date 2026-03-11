@@ -336,12 +336,13 @@ function generatePDFData(Data = {}) {
     }
 
     const printWindow = window.open('', '', 'width=800,height=600');
+    const pdfId = Data.ID
     const cssUrl = "css/transporte/style.css";
 
     printWindow.document.write(`
         <html>
         <head>
-            <title>PDF</title>
+            <title>PDF_${pdfId}</title>
             <link rel="stylesheet" href="${cssUrl}">
         </head>
         <body></body>
