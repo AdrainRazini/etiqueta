@@ -20,6 +20,7 @@ function getStorage(key){
 let key = {};
 if(tipo){
     key = getStorage(tipo);
+    console.log(key)
 }
 
 const pdf_card_container = document.getElementById("pdf-card-container");
@@ -111,7 +112,21 @@ function resumeCard(data, id){
         window.location.href = `index_pdf.html?tipo=etiquetas&id=${encodeURIComponent(id)}`;
     });
 
+  const btnDelete = createobj("button", { text: "Excluir", class: "modal-input btn-oculte"});
+  btnDelete.addEventListener("click",()=>{
+  ADN.run("confirm",{
+        text:"Deseja excluir este registro?",
+
+        onYes:()=>{
+            delete key[id];
+            localStorage.setItem(tipo, JSON.stringify(key));
+            miniCard.remove();
+        }
+    });
+
+});
     miniCard.appendChild(btnOpen);
+    miniCard.appendChild(btnDelete);
     return miniCard;
 }
 
@@ -201,7 +216,7 @@ if(!tipo){
 // função para gerar PDF usando print (simples)
 function generatePDF(card, options = {}) {
   
-    const totalVolumes = options.Qtd ?? 1;
+    const totalVolumes = Number(options.Qtd) || 1;
     const printContent = document.createElement("div");
 
     for (let i = 1; i <= totalVolumes; i++) {
