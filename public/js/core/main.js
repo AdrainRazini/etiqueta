@@ -227,9 +227,6 @@ function runLoading({ steps, loadingEl, textEl, progressEl, imageEl, toolbarEl, 
 const modal = getId("modal-overlay");
 const closeBtn = getId("modal-close");
 
-const SenderBtn = getId("btn_confirm");
-const CancelBtn = getId("btn_cancel");
-
 const titleEl = getId("modal-title");
 const textEl = getId("modal-text");
 const imageEl = getId("modal-image");
@@ -237,6 +234,9 @@ const imageEl = getId("modal-image");
 const inputsEl = getId("modal-inputs");
 
 const textSubEl = getId("modal-text-sub");
+
+const SenderBtn = getId("btn_confirm");
+const CancelBtn = getId("btn_cancel");
 
 
 
@@ -570,59 +570,66 @@ openModal({
 
 }
 
-function abrirEtiqueta(){
+// Abrir ou editar
+function abrirEtiqueta(arg={}){
+
+const data = arg.data || {};
+const editId = arg.id || null;
 
 openModal({
-title:"Criar Etiqueta",
-text:"Preencha os dados da etiqueta",
+title: editId ? "Editar Etiqueta" : "Criar Etiqueta",
+text: "Preencha os dados da etiqueta",
 
 inputs:[
 
 { tag:"label", options:{text:"Nome do Cliente"} },
-{ tag:"input", options:{name:"nome", type:"text", class:"modal-input",placeholder:"Digite o nome",required:true} },
+{ tag:"input", options:{name:"nome", type:"text", class:"modal-input", value:data.nome || "", placeholder:"Digite o nome", required:true} },
 
 { tag:"label", options:{text:"Volume"} },
-{ tag:"input", options:{name:"volume", type:"number", class:"modal-input",placeholder:"Qtd Volume",required:true} },
+{ tag:"input", options:{name:"volume", type:"number", class:"modal-input", value:data.volume || "", placeholder:"Qtd Volume", required:true} },
 
-// Origem 
+// Origem
 { tag:"label", options:{text:"Origem"} },
-{ tag:"input", options:{name:"origem", type:"text", class:"modal-input",placeholder:"Endereço de Origem",required:true} },
-{ tag:"select",options:{name:"uf_origem", id:"uf-origem",class:"modal-input",required:true}},
-{ tag:"select",options:{name:"cidade_origem", id:"cidade-origem",class:"modal-input",required:true}},
+{ tag:"input", options:{name:"origem", type:"text", class:"modal-input", value:data.origem || "", placeholder:"Endereço de Origem", required:true} },
+{ tag:"select", options:{name:"uf_origem",id:"uf-origem", class:"modal-input",value:data.uf_origem || "", options:data.uf_origem ? [{value:data.uf_origem, text:data.uf_origem}] : []  ,required:true}},
+{ tag:"select", options:{name:"cidade_origem",id:"cidade-origem",class:"modal-input",value:data.cidade_origem || "", options:data.cidade_origem ? [{value:data.cidade_origem, text:data.cidade_origem}] : []  ,required:true}},
 
 // Destino
 { tag:"label", options:{text:"Destino"} },
-{ tag:"input", options:{name:"destino", type:"text", class:"modal-input",placeholder:"Endereço de Destino",required:true}},
-{ tag:"select",options:{name:"uf_destino", id:"uf-destino",class:"modal-input",required:true}},
-{ tag:"select",options:{name:"cidade_destino", id:"cidade-destino",class:"modal-input",required:true}},
+{ tag:"input", options:{name:"destino", type:"text", class:"modal-input", value:data.destino || "", placeholder:"Endereço de Destino", required:true} },
+{ tag:"select", options:{name:"uf_destino",id:"uf-destino",class:"modal-input",value:data.uf_destino || "", options:data.uf_destino ? [{value:data.uf_destino, text:data.uf_destino}] : [] ,required:true}},
+{ tag:"select", options:{name:"cidade_destino",id:"cidade-destino",class:"modal-input",value:data.cidade_destino || "", options:data.cidade_destino ? [{value:data.cidade_destino, text:data.cidade_destino}] : []  ,required:true}},
 
-// Extra Obs
+// Obs
 { tag:"label", options:{text:"Observações"} },
-{ tag:"textarea", options:{name:"obs", class:"modal-input"} }
+{ tag:"textarea", options:{name:"obs", class:"modal-input", value:data.obs || ""} }
 
 ],
 
-    //Confimação Print
-    onConfirm:(dados)=>{
+onConfirm:(dados)=>{
 
-    createConfirm({
-        text:"Deseja salvar esta etiqueta?",
-        onYes:()=>{
+createConfirm({
+text: editId ? "Deseja atualizar esta etiqueta?" : "Deseja salvar esta etiqueta?",
 
-            const etiquetas = ADN.cache.get("etiquetas") || {};
+onYes:()=>{
 
-            const id = Date.now();
+const etiquetas = ADN.cache.get("etiquetas") || {};
 
-            etiquetas[id] = dados;
+const id = editId || Date.now();
 
-            ADN.cache.set("etiquetas", etiquetas);
+etiquetas[id] = dados;
 
-            createAlert({text:"Etiqueta criada com sucesso"});
-        }
-    });
+ADN.cache.set("etiquetas", etiquetas);
+
+createAlert({
+text: editId ? "Etiqueta atualizada com sucesso" : "Etiqueta criada com sucesso"
+});
 
 }
 
+});
+
+}
 
 });
 
@@ -749,6 +756,11 @@ function initUI(){
 }
 
 document.addEventListener("DOMContentLoaded", initUI);
+
+ADN.register("abrirEtiqueta", {
+    type:"ui",
+    run:abrirEtiqueta
+});
 
 ADN.register("alert", {
     type:"ui",

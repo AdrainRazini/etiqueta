@@ -97,6 +97,8 @@ function atualizarCidades(selectUfId, selectCidadeId) {
   const cidadeSelect = document.getElementById(selectCidadeId);
   if(!cidadeSelect) return;
 
+  const currentCidade = cidadeSelect.value;
+
   cidadeSelect.innerHTML = "";
 
   const estado = array_cities.find(([sigla]) => sigla === uf);
@@ -112,6 +114,10 @@ function atualizarCidades(selectUfId, selectCidadeId) {
       option.value = cidade;
       option.textContent = cidade;
 
+      if(cidade === currentCidade){
+        option.selected = true;
+      }
+
       cidadeSelect.appendChild(option);
 
     });
@@ -126,7 +132,10 @@ function preencherEstados(selectId, selectCidadeId) {
   const select = document.getElementById(selectId);
   if(!select) return;
 
-  if(!document.getElementById(selectCidadeId)) return;
+  const cidadeSelect = document.getElementById(selectCidadeId);
+  if(!cidadeSelect) return;
+
+  const currentValue = select.value; // guarda valor atual
 
   select.innerHTML = "";
 
@@ -136,6 +145,10 @@ function preencherEstados(selectId, selectCidadeId) {
 
     option.value = uf;
     option.textContent = `${uf} - ${nome}`;
+
+    if(uf === currentValue){
+      option.selected = true; // restaura seleção
+    }
 
     select.appendChild(option);
 

@@ -148,12 +148,12 @@ function createCard(data, id){
     card.appendChild(createobj("p", { text: `Destino: ${escapeHtml(data.cidade_destino)} - ${escapeHtml(data.uf_destino)}` }));
     card.appendChild(createobj("p", { text: `Obs: ${escapeHtml(data.obs || '-')}` }));
 
- const btnPdf = createobj("button", { 
+    const btnPdf = createobj("button", { 
     text: "Gerar PDF", 
     class: "modal-input btn-oculte" 
-});
+    });
 
-btnPdf.addEventListener("click", () => {
+    btnPdf.addEventListener("click", () => {
 
     ADN.run("confirm",{
         text:"Deseja imprimir todas as etiquetas deste volume?",
@@ -183,6 +183,28 @@ onYes:()=>{
 
     });
 
+    const btnEdite =  createobj("button", { 
+    text: "Editar", 
+    class: "modal-input btn-oculte" 
+    });
+
+    btnEdite.addEventListener("click", () => {
+
+    ADN.run("confirm",{
+        text:"Deseja editar a etiqueta deste volume?",
+       onYes:()=>{
+        ADN.run("abrirEtiqueta",{id,data})
+       },
+        onNo:()=>{
+        ADN.run("alert",{text:"no"})
+        }
+
+    });
+
+    });
+
+
+    card.appendChild(btnEdite);
     card.appendChild(btnPdf);
     return card;
 }
