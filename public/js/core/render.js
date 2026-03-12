@@ -533,6 +533,11 @@ function generatePDFcard(card, options = {}) {
 
     }
     const printWindow = window.open('', '', 'width=800,height=600');
+    if(!printWindow){
+    //alert("Popup bloqueado pelo navegador.");
+    ADN.run("alert",{text:"Popup bloqueado pelo navegador."})
+    return;
+    }
     printWindow.document.write('<html><head><title>PDF</title>');
     printWindow.document.write('<link rel="stylesheet" href="css/transporte/style.css">');
     printWindow.document.write('</head><body>');
