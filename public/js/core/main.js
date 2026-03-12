@@ -623,9 +623,15 @@ ADN.cache.set("etiquetas", etiquetas);
 
 createAlert({
 text: editId ? "Etiqueta atualizada com sucesso" : "Etiqueta criada com sucesso"
-});
-
 }
+
+);
+
+},
+
+ onNo:()=>{
+           ADN.run("alert",{text:"no"})
+        }
 
 });
 
