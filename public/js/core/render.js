@@ -14,17 +14,25 @@ function getStorage(key){
 
 function ensureStorage(key){
 
-    let data = getStorage(key);
+    let data = localStorage.getItem(key);
 
-    // se não existir cria banco vazio
-    if(!localStorage.getItem(key)){
+    if(!data){
 
-        localStorage.setItem(key, JSON.stringify({}));
-        data = {};
+        const empty = {};
+        localStorage.setItem(key, JSON.stringify(empty));
+        return empty;
 
     }
 
-    return data;
+    try{
+        return JSON.parse(data);
+    }catch(e){
+        console.warn("Erro ao ler localStorage:", e);
+
+        const empty = {};
+        localStorage.setItem(key, JSON.stringify(empty));
+        return empty;
+    }
 
 }
 
@@ -44,8 +52,7 @@ if(tipo){
 
 // Pega filtrado no localStorage
 const tiposDisponiveis = Object.keys(localStorage)
-.filter(key => key.startsWith(prefix));
-
+.filter(k => k.startsWith(prefix) && localStorage.getItem(k));
 
 const pdf_card_container = document.getElementById("pdf-card-container");
 const print_area = document.getElementById("print-area");
