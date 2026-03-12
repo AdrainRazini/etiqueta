@@ -538,3 +538,8 @@ function generatePDFcard(card, options = {}) {
         }, 200);
     };
 }
+
+ADN.register("generatePDFData", {
+    type:"ui",
+    run:generatePDFData
+});

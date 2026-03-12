@@ -630,7 +630,23 @@ text: editId ? "Etiqueta atualizada com sucesso" : "Etiqueta criada com sucesso"
 },
 
  onNo:()=>{
-           ADN.run("alert",{text:"pdf"})
+    ADN.run("alert",{text:"pdf"})
+
+    let data = dados
+
+    const etiquetaData = {
+        ID: id,
+        Nome: data.nome,
+        Produto:"Etiqueta",
+        Qtd: data.volume,
+        Origem: `${data.cidade_origem} - ${data.uf_origem}`,
+        Destino: `${data.cidade_destino} - ${data.uf_destino}`,
+        Logo: "image/Logo_Transcotempo_black.png",
+        Imagem: "image/Logo_Transcotempo_black.png"
+    };
+
+        ADN.run("generatePDFData",{etiquetaData})
+
         }
 
 });
