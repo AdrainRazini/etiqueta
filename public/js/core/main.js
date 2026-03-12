@@ -654,7 +654,7 @@ imagem:"image/Logo_Transcotempo_black.png"
 
 };
 console.log(dados)
-ADN.run("generatePDFData",{etiquetaData});
+ADN.run("generatePDFData",etiquetaData);
 
 }
 
