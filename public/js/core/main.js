@@ -653,7 +653,7 @@ logo:"image/Logo_Transcotempo_black.png",
 imagem:"image/Logo_Transcotempo_black.png"
 
 };
-
+console.log(dados)
 ADN.run("generatePDFData",{etiquetaData});
 
 }
