@@ -607,8 +607,8 @@ inputs:[
 ],
 
 onConfirm:(dados)=>{
-
-    let data = dados
+console.log(dados)
+   // let data = dados
 
 createConfirm({
 
