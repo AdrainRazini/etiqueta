@@ -310,27 +310,24 @@ function render(){
 
 function monitorRender(){
 
-    let cache = JSON.stringify(key);
+    window.addEventListener("storage",(e)=>{
 
-    setInterval(()=>{
+        if(e.key !== tipo) return;
 
-        const atual = localStorage.getItem(tipo);
+        try{
 
-        if(!atual) return;
-
-        if(atual !== cache){
-
-            cache = atual;
-            key = JSON.parse(atual);
-
+            banco = JSON.parse(e.newValue) || {};
             render();
+
+        }catch(err){
+
+            console.warn("Erro ao atualizar storage:",err);
 
         }
 
-    }, 500); // verifica a cada 0.5s
+    });
 
 }
-
 
 /* Renderização por ID */
 function renderCardsPorID(){
