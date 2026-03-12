@@ -656,11 +656,13 @@ onNo:()=>{
 ADN.run("alert",{text:"pdf"});
 
 const id = editId ?? Date.now();
-
+// ADN.run("filter",{dados, id});
 const etiquetaData = filter(dados, id);
 
 console.log(dados)
-ADN.run("generatePDFData",etiquetaData);
+
+
+ADN.run("alert",{text:"pdf"});
 
 }
 
