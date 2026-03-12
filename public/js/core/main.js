@@ -609,45 +609,52 @@ inputs:[
 onConfirm:(dados)=>{
 
 createConfirm({
-text: editId ? "Deseja atualizar esta etiqueta?" : "Deseja salvar esta etiqueta?",
+
+text: editId ? 
+"Deseja atualizar esta etiqueta?" : 
+"Deseja salvar esta etiqueta?",
 
 onYes:()=>{
 
 const etiquetas = ADN.cache.get("etiquetas") || {};
-
-const id = editId || Date.now();
+const id = editId ?? Date.now();
 
 etiquetas[id] = dados;
 
 ADN.cache.set("etiquetas", etiquetas);
 
 createAlert({
-text: editId ? "Etiqueta atualizada com sucesso" : "Etiqueta criada com sucesso"
-}
-
-);
+text: editId 
+? "Etiqueta atualizada com sucesso"
+: "Etiqueta criada com sucesso"
+});
 
 },
 
- onNo:()=>{
-    ADN.run("alert",{text:"pdf"})
+onNo:()=>{
 
-    let data = dados
+ADN.run("alert",{text:"pdf"});
 
-    const etiquetaData = {
-        ID: id,
-        Nome: data.nome,
-        Produto:"Etiqueta",
-        Qtd: data.volume,
-        Origem: `${data.cidade_origem} - ${data.uf_origem}`,
-        Destino: `${data.cidade_destino} - ${data.uf_destino}`,
-        Logo: "image/Logo_Transcotempo_black.png",
-        Imagem: "image/Logo_Transcotempo_black.png"
-    };
+const id = editId ?? Date.now();
 
-        ADN.run("generatePDFData",{etiquetaData})
+const etiquetaData = {
 
-        }
+id,
+nome: dados.nome,
+produto: "Etiqueta",
+volume: dados.volume,
+
+origem: `${dados.cidade_origem} - ${dados.uf_origem}`,
+destino: `${dados.cidade_destino} - ${dados.uf_destino}`,
+
+logo:"image/Logo_Transcotempo_black.png",
+imagem:"image/Logo_Transcotempo_black.png"
+
+};
+
+ADN.run("generatePDFData",{etiquetaData});
+
+}
 
 });
 
