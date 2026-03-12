@@ -105,6 +105,26 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+
+function filter(data = {}, id){
+
+    const etiquetaData = {
+        ID: id,
+        Nome: data.nome,
+        Produto:"Etiqueta",
+        Qtd: data.volume,
+        Origem: `${data.cidade_origem} - ${data.uf_origem}`,
+        Destino: `${data.cidade_destino} - ${data.uf_destino}`,
+        Logo: "image/Logo_Transcotempo_black.png",
+        Imagem: "image/Logo_Transcotempo_black.png"
+    };
+
+    return etiquetaData;
+
+}
+
+
+
 // --- Função para criar mini card (resumo) ---
 function resumeCard(data, id){
     const miniCard = createobj("div", { class: "pdf-card mini" });
@@ -160,19 +180,9 @@ function createCard(data, id){
 
 onYes:()=>{
 
-    const etiquetaData = {
-        ID: id,
-        Nome: data.nome,
-        Produto:"Etiqueta",
-        Qtd: data.volume,
-        Origem: `${data.cidade_origem} - ${data.uf_origem}`,
-        Destino: `${data.cidade_destino} - ${data.uf_destino}`,
-        Logo: "image/Logo_Transcotempo_black.png",
-        Imagem: "image/Logo_Transcotempo_black.png"
-    };
-
+    const etiquetaData = filter(dados, id);
     generatePDFData(etiquetaData);
-
+ 
        },
 
         onNo:()=>{
@@ -430,8 +440,9 @@ function TemplateEtiqueta(Data = {}, volume = 1){
     return table;
 }
 
+
 function generatePDFData(Data = {}) {
-console.log(Data)
+
     const totalVolumes = Number(Data.Qtd) || 1;
     const grid = createobj("div",{class:"grid"});
 
@@ -538,6 +549,12 @@ function generatePDFcard(card, options = {}) {
         }, 200);
     };
 }
+
+//filter
+ADN.register("filter", {
+    type:"ui",
+    run:filter
+});
 
 ADN.register("generatePDFData", {
     type:"ui",

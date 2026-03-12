@@ -11,6 +11,24 @@ function getId(name){
 }
 
 
+function filter(data = {}, id){
+
+    const etiquetaData = {
+        ID: id,
+        Nome: data.nome,
+        Produto:"Etiqueta",
+        Qtd: data.volume,
+        Origem: `${data.cidade_origem} - ${data.uf_origem}`,
+        Destino: `${data.cidade_destino} - ${data.uf_destino}`,
+        Logo: "image/Logo_Transcotempo_black.png",
+        Imagem: "image/Logo_Transcotempo_black.png"
+    };
+
+    return etiquetaData;
+
+}
+
+
 // Função para criar o templates de html
 
 /* Alert */
@@ -639,20 +657,8 @@ ADN.run("alert",{text:"pdf"});
 
 const id = editId ?? Date.now();
 
-const etiquetaData = {
+const etiquetaData = filter(dados, id);
 
-id,
-nome: dados.nome,
-produto: "Etiqueta",
-volume: dados.volume,
-
-origem: `${dados.cidade_origem} - ${dados.uf_origem}`,
-destino: `${dados.cidade_destino} - ${dados.uf_destino}`,
-
-logo:"image/Logo_Transcotempo_black.png",
-imagem:"image/Logo_Transcotempo_black.png"
-
-};
 console.log(dados)
 ADN.run("generatePDFData",etiquetaData);
 
