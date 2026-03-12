@@ -217,16 +217,30 @@ onYes:()=>{
 
 // --- Função para criar mini card de banco (tipo) ---
 function bancoCardItem(tipoBanco){
-    const bancoCard = createobj("div", { class: "pdf-card mini" });
-    bancoCard.appendChild(createobj("h4", { text: escapeHtml(tipoBanco) }));
 
-    const btnOpen = createobj("button", { text: "Abrir", class: "modal-input btn-oculte" });
-    btnOpen.addEventListener("click", () => {
-        window.location.href = `index_pdf.html?tipo=${encodeURIComponent(tipoBanco)}`;
+    const bancoCard = createobj("div",{class:"pdf-card mini"});
+
+    const header = createobj("div",{class:"card-header"});
+
+    const icon = createobj("i",{class:"fa-solid fa-box"});
+    const title = createobj("h4",{text:escapeHtml(tipoBanco)});
+
+    header.append(icon,title);
+
+    const btnOpen = createobj("button",{ 
+        text:"Abrir",
+        class:"modal-input btn-oculte"
     });
 
-    bancoCard.appendChild(btnOpen);
+    btnOpen.onclick = ()=>{
+        window.location.href =
+        `index_pdf.html?tipo=${encodeURIComponent(tipoBanco)}`;
+    };
+
+    bancoCard.append(header,btnOpen);
+
     return bancoCard;
+
 }
 
 /* Render */
