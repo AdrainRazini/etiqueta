@@ -12,6 +12,22 @@ function getStorage(key){
     }
 }
 
+function ensureStorage(key){
+
+    let data = getStorage(key);
+
+    // se não existir cria banco vazio
+    if(!localStorage.getItem(key)){
+
+        localStorage.setItem(key, JSON.stringify({}));
+        data = {};
+
+    }
+
+    return data;
+
+}
+
 const params = new URLSearchParams(window.location.search);
 
 // tipo:etiquetas id:(múltiplos separados por vírgula)
@@ -21,16 +37,15 @@ const ids = idParam.split(",").map(s => s.trim()).filter(Boolean);
 
 let key = {};
 if(tipo){
-    key = getStorage(tipo);
+    //key = getStorage(tipo);
+    key = ensureStorage(tipo);
 }
+
 
 // Pega filtrado no localStorage
 const tiposDisponiveis = Object.keys(localStorage)
 .filter(key => key.startsWith(prefix));
 
-
-// Pega todos os tipos salvos no localStorage
-//const tiposDisponiveis = Object.keys(localStorage);
 
 const pdf_card_container = document.getElementById("pdf-card-container");
 const print_area = document.getElementById("print-area");

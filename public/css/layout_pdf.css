@@ -92,6 +92,12 @@ font-size:16px;
 }
 
 
+#data-center{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
 /* Banco Datas */
 .banco-card{
     width:200px;
