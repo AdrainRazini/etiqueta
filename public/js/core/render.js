@@ -218,9 +218,9 @@ onYes:()=>{
 // --- Função para criar mini card de banco (tipo) ---
 function bancoCardItem(tipoBanco){
 
-    const bancoCard = createobj("div",{class:"pdf-card mini"});
+    const bancoCard = createobj("div",{class:"banco-card"});
 
-    const header = createobj("div",{class:"card-header"});
+    const header = createobj("div",{class:"banco-header"});
 
     const icon = createobj("i",{class:"fa-solid fa-box"});
     const title = createobj("h4",{text:escapeHtml(tipoBanco)});
@@ -229,7 +229,7 @@ function bancoCardItem(tipoBanco){
 
     const btnOpen = createobj("button",{ 
         text:"Abrir",
-        class:"modal-input btn-oculte"
+        class:"btn-open"
     });
 
     btnOpen.onclick = ()=>{
