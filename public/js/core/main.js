@@ -630,7 +630,7 @@ text: editId ? "Etiqueta atualizada com sucesso" : "Etiqueta criada com sucesso"
 },
 
  onNo:()=>{
-           ADN.run("alert",{text:"no"})
+           ADN.run("alert",{text:"pdf"})
         }
 
 });
