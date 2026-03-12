@@ -431,7 +431,7 @@ function TemplateEtiqueta(Data = {}, volume = 1){
 }
 
 function generatePDFData(Data = {}) {
-
+console.log(Data)
     const totalVolumes = Number(Data.Qtd) || 1;
     const grid = createobj("div",{class:"grid"});
 
