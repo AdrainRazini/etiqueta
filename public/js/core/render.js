@@ -96,8 +96,6 @@ function createobj(tag, options = {}) {
     return el;
 }
 
-
-
 // função para escapar HTML (segurança)
 function escapeHtml(text) {
     const div = document.createElement("div");
@@ -552,6 +550,12 @@ function generatePDFcard(card, options = {}) {
         }, 200);
     };
 }
+
+
+ADN.register("filter", {
+    type:"ui",
+    run:filter
+});
 
 ADN.register("generatePDFData", {
     type:"ui",
