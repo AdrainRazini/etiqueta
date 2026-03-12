@@ -608,6 +608,8 @@ inputs:[
 
 onConfirm:(dados)=>{
 
+    let data = dados
+
 createConfirm({
 
 text: editId ? 
