@@ -654,10 +654,10 @@ text: editId
 onNo:()=>{
 
 if (!editId){
+ADN.run("alert",{text:"pdf"});
 const id = editId ?? Date.now();
 const etiquetaData = filter(dados, id);
 ADN.run("generatePDFData",etiquetaData);
-ADN.run("alert",{text:"pdf"});
 }
 
 }
