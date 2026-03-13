@@ -3,6 +3,18 @@
 
     /* pages_scren.css */
 
+    /* Index pages */
+    --loading-screen-Index:9999;
+    --custom-alert-Index:9999;
+    --custom-confirm-Index:9998;
+
+    /* Modals */
+    --sidebar-Index:9998;
+    --modal-overlay-Index:9998;
+    --toolbar-Index:9997;
+    --topbar-Index:1000;
+
+    /* Margin Global pages */
     --page-margin-top:55px;
 
     /*LOADING SCREEN*/
@@ -582,7 +594,7 @@ gap:10px;
 
     opacity: 0;
     transition: all 0.3s ease;
-    z-index: 9999;
+    z-index: var(--custom-alert-Index)
 }
 .custom-alert.show {
     opacity: 1;
@@ -596,7 +608,7 @@ gap:10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9998;
+    z-index: var(--custom-confirm-Index);
 }
 
 .custom-confirm-box {
@@ -645,7 +657,7 @@ TOPBAR
 
     padding:0 20px;
 
-    z-index:1000;
+    z-index:var(--topbar-Index);
 
 }
 
@@ -676,6 +688,7 @@ TOPBAR
     flex-direction:column;
 
     transition:transform var(--sidebar-transition);
+    z-index: var(--sidebar-Index);
 
 }
 
