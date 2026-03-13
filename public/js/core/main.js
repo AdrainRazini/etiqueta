@@ -1,6 +1,9 @@
 import ADN from "./app.js";
 
 function getId(name){
+
+    if(name instanceof HTMLElement) return name;
+
     const el = document.getElementById(name);
 
     if(!el){
