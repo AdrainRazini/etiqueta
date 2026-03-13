@@ -587,7 +587,7 @@ function abrirChat(){
         {
             tag:"input",
             options:{
-                id:"chat_pergunta",
+                id:"rq-chat-pergunta",
                 class:"modal-input",
                 placeholder:"Digite sua pergunta..."
             }
@@ -597,17 +597,22 @@ function abrirChat(){
             tag:"button",
             options:{
                 text:"Enviar",
+                id:"rq-sender-ia",
                 class:"btn cancel",
                 onclick: async ()=>{
 
-                    const pergunta = document.getElementById("chat_pergunta").value.trim();
+                    const input = document.getElementById("rq-chat-pergunta");
+                    const pergunta = input.value.trim();
+
                     const respostaBox = document.getElementById("rq-ia");
+                    const btnSender = document.getElementById("rq-sender-ia");
 
                     if(!pergunta){
                         respostaBox.value = "Digite uma pergunta.";
                         return;
                     }
 
+                    btnSender.disabled = true;
                     respostaBox.value = "Pensando...";
 
                     const payload = {
@@ -630,13 +635,18 @@ function abrirChat(){
 
                         console.log("Resposta IA:", data);
 
-                        // mostra resposta no textarea
-                        //respostaBox.value = data.response || JSON.stringify(data,null,2);
                         respostaBox.value = data.reply || "Sem resposta da IA";
+
+                        input.value = "";
+
                     }catch(err){
 
                         console.error("Erro API:",err);
                         respostaBox.value = "Erro ao consultar IA.";
+
+                    }finally{
+
+                        btnSender.disabled = false;
 
                     }
 
@@ -644,7 +654,6 @@ function abrirChat(){
             }
         },
 
-        
         {
             tag:"textarea",
             options:{
