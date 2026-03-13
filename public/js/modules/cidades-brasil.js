@@ -91,7 +91,7 @@ function getId(name){
 	const el = document.getElementById(name);
 
 	if(!el){
-		console.warn(`Elemento com id "${name}" não encontrado`);
+		//console.warn(`Elemento com id "${name}" não encontrado`);
 	}
 
 	return el;
