@@ -526,8 +526,8 @@ pointer-events:auto;
 .modal-textarea{
     resize:none;
     overflow:hidden;
-
-    min-height:80px;
+    height: auto;
+    min-height:200px;
 }
 
 
