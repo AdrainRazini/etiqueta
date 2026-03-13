@@ -498,7 +498,7 @@ pointer-events:auto;
 
     resize:none;          /* remove resize manual */
     overflow:hidden;      /* evita scroll */
-    min-height:60px;
+    min-height:40px;
     line-height:1.4;
 }
 
