@@ -472,6 +472,7 @@ pointer-events:auto;
 
     cursor:var(--modal-close-cursor);
 }
+
 .modal-body{
 
     padding:var(--modal-body-padding);
