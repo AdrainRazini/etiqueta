@@ -205,6 +205,7 @@ LOADING SCREEN
 
     opacity:0;
     transition:opacity var(--loading-screen-opacity-transition) ease;
+    z-index: var(--loading-screen-Index)
 }
 
 
