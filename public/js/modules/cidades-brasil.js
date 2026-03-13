@@ -87,14 +87,25 @@ var array_cities = [
 ];
 
 
+function getId(name){
+	const el = document.getElementById(name);
+
+	if(!el){
+		console.warn(`Elemento com id "${name}" não encontrado`);
+	}
+
+	return el;
+}
+
+
 function atualizarCidades(selectUfId, selectCidadeId) {
 
-  const ufSelect = document.getElementById(selectUfId);
+  const ufSelect = getId(selectUfId);
   if(!ufSelect) return;
 
   const uf = ufSelect.value;
 
-  const cidadeSelect = document.getElementById(selectCidadeId);
+  const cidadeSelect = getId(selectCidadeId);
   if(!cidadeSelect) return;
 
   const currentCidade = cidadeSelect.value;
@@ -129,10 +140,10 @@ function atualizarCidades(selectUfId, selectCidadeId) {
 
 function preencherEstados(selectId, selectCidadeId) {
 
-  const select = document.getElementById(selectId);
+  const select = getId(selectId);
   if(!select) return;
 
-  const cidadeSelect = document.getElementById(selectCidadeId);
+  const cidadeSelect = getId(selectCidadeId);
   if(!cidadeSelect) return;
 
   const currentValue = select.value; // guarda valor atual
@@ -162,7 +173,7 @@ function preencherEstados(selectId, selectCidadeId) {
 
 setInterval(() => {
 
-  const origem = document.getElementById("uf-origem");
+  const origem = getId("uf-origem");
   if (origem && !origem.dataset.loaded) {
 
     preencherEstados("uf-origem","cidade-origem");
@@ -170,7 +181,7 @@ setInterval(() => {
 
   }
 
-  const destino = document.getElementById("uf-destino");
+  const destino = getId("uf-destino");
   if (destino && !destino.dataset.loaded) {
 
     preencherEstados("uf-destino","cidade-destino");
