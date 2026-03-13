@@ -569,12 +569,11 @@ openModal({
 
 }
 
-
 function abrirChat(){
 
  const API_URL = "https://adn-ia.vercel.app/chat";
  const CORE_CHAT = "bot_adn";
- const UserDefault = "User_Null";
+ const UserDefault = "Null";
 
  openModal({
     title:"Chat Adn",
@@ -600,7 +599,15 @@ function abrirChat(){
                 class:"btn cancel",
                 onclick: async ()=>{
 
-                    const pergunta = document.getElementById("chat_pergunta").value;
+                    const pergunta = document.getElementById("chat_pergunta").value.trim();
+                    const respostaBox = document.getElementById("rq-ia");
+
+                    if(!pergunta){
+                        respostaBox.value = "Digite uma pergunta.";
+                        return;
+                    }
+
+                    respostaBox.value = "Pensando...";
 
                     const payload = {
                         message: pergunta,
@@ -622,20 +629,26 @@ function abrirChat(){
 
                         console.log("Resposta IA:", data);
 
+                        // mostra resposta no textarea
+                        respostaBox.value = data.response || JSON.stringify(data,null,2);
+
                     }catch(err){
+
                         console.error("Erro API:",err);
+                        respostaBox.value = "Erro ao consultar IA.";
+
                     }
 
                 }
             }
         },
-               {
+
+        {
             tag:"textarea",
             options:{
-                name:"Chat Bot",
                 id:"rq-ia",
                 class:"modal-input",
-                value:"O ADN Core é uma engine modular projetada para criar interfaces, formulários e sistemas interativos de forma dinâmica utilizando configurações em JSON."
+                placeholder:"Resposta da IA aparecerá aqui..."
             }
         },
 
@@ -649,7 +662,6 @@ function abrirChat(){
  });
 
 }
-
 
 // Abrir ou editar
 function abrirEtiqueta(arg={}){
