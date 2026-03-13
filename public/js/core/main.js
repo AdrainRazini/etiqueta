@@ -629,16 +629,6 @@ function abrirChat(){
                 }
             }
         },
-                {
-            tag:"textarea",
-            options:{
-                name:"Chat bot",
-                class:"modal-input",
-                id:"adn-ia",
-                value:"O ADN Core é uma engine modular projetada para criar interfaces, formulários e sistemas interativos de forma dinâmica utilizando configurações em JSON."
-            }
-        }
-
 
         ADN.templates.link("https://adn-ia.vercel.app/")
     ],
