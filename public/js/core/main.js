@@ -844,7 +844,20 @@ function handleAction(action, el, label){
 actionMonitor(toolbar);
 actionMonitor(getId("sidebar"));
 
+function autoResizeTextarea(el){
 
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+
+}
+
+document.addEventListener("input", (e)=>{
+
+    if(e.target.matches(".modal-body textarea")){
+        autoResizeTextarea(e.target);
+    }
+
+});
 
 function menu() {
 
