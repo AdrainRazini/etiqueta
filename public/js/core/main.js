@@ -630,8 +630,8 @@ function abrirChat(){
                         console.log("Resposta IA:", data);
 
                         // mostra resposta no textarea
-                        respostaBox.value = data.response || JSON.stringify(data,null,2);
-
+                        //respostaBox.value = data.response || JSON.stringify(data,null,2);
+                        respostaBox.value = data.reply || "Sem resposta da IA";
                     }catch(err){
 
                         console.error("Erro API:",err);
