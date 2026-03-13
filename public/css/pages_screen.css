@@ -1,10 +1,11 @@
 
 :root{
-
     /* pages_scren.css */
 
     /* Index pages */
     --loading-screen-Index:9999;
+    --error-page-Index:9999;
+
     --custom-alert-Index:9999;
     --custom-confirm-Index:9998;
 
@@ -22,7 +23,7 @@
     --loading-screen-display:flex;
     --loading-screen-justify-content:center;
     --loading-screen-flex-direction:column;
-    --loading-screen-aling-items:center;
+    --loading-screen-align-items:center;
 
     --loading-screen-bg:#0a0a0a;
     --loading-screen-opacity-transition:0.8s;
@@ -199,7 +200,7 @@ LOADING SCREEN
     display:var(--loading-screen-display);
     flex-direction:var(--loading-screen-flex-direction);
     justify-content:var(--loading-screen-justify-content);
-    align-items:var(--loading-screen-aling-items);
+    align-items:var(--loading-screen-align-items);
 
      background:var(--loading-screen-bg);
 

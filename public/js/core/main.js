@@ -569,24 +569,78 @@ openModal({
 
 }
 
+
 function abrirChat(){
 
-openModal({
+ const API_URL = "https://adn-ia.vercel.app/chat";
+ const CORE_CHAT = "bot_adn";
+ const UserDefault = "User_Null";
+
+ openModal({
     title:"Chat Adn",
     text:"Engine carregada com sucesso",
-    textsub:"Ia Cloud",
+    textsub:"IA Cloud",
 
     inputs:[
-        ADN.templates.link("https://adn-ia.vercel.app/") // Test de plug App
+
+        { tag:"label", options:{ text:"Chat" } },
+
+        {
+            tag:"input",
+            options:{
+                id:"chat_pergunta",
+                placeholder:"Digite sua pergunta..."
+            }
+        },
+
+        {
+            tag:"button",
+            options:{
+                text:"Enviar",
+                class:"btn cancel",
+                onclick: async ()=>{
+
+                    const pergunta = document.getElementById("chat_pergunta").value;
+
+                    const payload = {
+                        message: pergunta,
+                        core: CORE_CHAT,
+                        author: UserDefault
+                    };
+
+                    try{
+
+                        const res = await fetch(API_URL,{
+                            method:"POST",
+                            headers:{
+                                "Content-Type":"application/json"
+                            },
+                            body: JSON.stringify(payload)
+                        });
+
+                        const data = await res.json();
+
+                        console.log("Resposta IA:", data);
+
+                    }catch(err){
+                        console.error("Erro API:",err);
+                    }
+
+                }
+            }
+        },
+
+        ADN.templates.link("https://adn-ia.vercel.app/")
     ],
 
     onConfirm:(dados)=>{
         console.log("Chat criada:", dados);
     }
 
-});
+ });
 
 }
+
 
 // Abrir ou editar
 function abrirEtiqueta(arg={}){
