@@ -647,7 +647,7 @@ function abrirChat(){
             tag:"textarea",
             options:{
                 id:"rq-ia",
-                class:"modal-input",
+                class:"modal-input lock",
                 placeholder:"Resposta da IA aparecerá aqui..."
             }
         },
