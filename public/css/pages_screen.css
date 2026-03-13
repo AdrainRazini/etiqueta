@@ -143,6 +143,8 @@
    --modal-bd-input-color:white;
    --modal-bd-input-padding:8px;
    --modal-bd-input-border-radius:6px;
+   --modal-bd-input-bg-lock:#00000086;
+    
 
    /* Modal-Alert */
    --modal-input-error-border:2px solid #ff4d4f;
@@ -470,7 +472,6 @@ pointer-events:auto;
 
     cursor:var(--modal-close-cursor);
 }
-
 .modal-body{
 
     padding:var(--modal-body-padding);
@@ -484,8 +485,26 @@ pointer-events:auto;
     color:var(--modal-body-color);
 }
 
-.modal-input,
-.modal-body textarea {
+
+/* INPUT PADRÃO */
+
+.modal-input{
+
+    background:var(--modal-bd-input-bg);
+    border:var(--modal-bd-input-border);
+    color:var(--modal-bd-input-color);
+
+    padding:var(--modal-bd-input-padding);
+    border-radius:var(--modal-bd-input-border-radius);
+
+    width:100%;
+}
+
+
+
+/* TEXTAREA */
+
+.modal-body textarea{
 
     background:var(--modal-bd-input-bg);
     border:var(--modal-bd-input-border);
@@ -496,43 +515,58 @@ pointer-events:auto;
 
     width:100%;
 
-    resize:none;          /* remove resize manual */
-    overflow:hidden;      /* evita scroll */
+    resize:none;
+    overflow:hidden;
+
     min-height:40px;
     line-height:1.4;
 }
 
 
+/* textarea maior */
+
+.modal-textarea{
+    min-height:80px;
+}
+
+
+
 /* estado bloqueado */
+
 .modal-input.lock,
 .modal-body textarea.lock{
 
+    user-select:none;
     pointer-events:none;
-    opacity:0.7;
+
+    opacity:0.65;
 
     background:var(--modal-bd-input-bg-lock, #00000086);
     cursor:not-allowed;
 }
+
+
+
+/* imagem */
+
 .modal-image{
     width:100%;
     border-radius:6px;
 }
 
+
+
+/* validação */
+
 .input-error{
-border:var(--modal-input-error-border);
-background:var(--modal-input-error-bg);
+    border:var(--modal-input-error-border);
+    background:var(--modal-input-error-bg);
 }
 
 .input-valid{
-border:var(--modal-input-valid-border);
-background:var(--modal-input-valid-bg);
+    border:var(--modal-input-valid-border);
+    background:var(--modal-input-valid-bg);
 }
-
-.modal-textarea{
-
-    min-height:80px;
-}
-
 
 
 /* Layout Dentro de modal-inputs */
