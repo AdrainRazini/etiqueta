@@ -588,6 +588,7 @@ function abrirChat(){
             tag:"input",
             options:{
                 id:"chat_pergunta",
+                class:"modal-input",
                 placeholder:"Digite sua pergunta..."
             }
         },
