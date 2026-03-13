@@ -105,8 +105,11 @@ function createobj(tag, options = {}) {
 
         }
 
+        else if(key in el){
+         el[key] = value;
+        }
         else{
-            el[key] = value;
+         el.setAttribute(key,value);
         }
 
     });
