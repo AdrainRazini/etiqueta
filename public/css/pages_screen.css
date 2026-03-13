@@ -516,9 +516,6 @@ pointer-events:auto;
 
     width:100%;
 
-    resize:none;
-    overflow:hidden;
-
     min-height:40px;
     line-height:1.4;
 }
