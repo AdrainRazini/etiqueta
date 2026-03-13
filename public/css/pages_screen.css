@@ -524,6 +524,9 @@ pointer-events:auto;
 /* textarea maior */
 
 .modal-textarea{
+    resize:none;
+    overflow:hidden;
+
     min-height:80px;
 }
 
