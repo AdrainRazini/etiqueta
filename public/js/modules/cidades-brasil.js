@@ -97,43 +97,37 @@ function getId(name){
 	return el;
 }
 
-
 function atualizarCidades(selectUfId, selectCidadeId) {
 
   const ufSelect = getId(selectUfId);
-  if(!ufSelect) return;
+  const cidadeSelect = getId(selectCidadeId);
+
+  if(!ufSelect || !cidadeSelect) return;
 
   const uf = ufSelect.value;
-
-  const cidadeSelect = getId(selectCidadeId);
-  if(!cidadeSelect) return;
-
   const currentCidade = cidadeSelect.value;
 
-  cidadeSelect.innerHTML = "";
+  cidadeSelect.replaceChildren();
 
   const estado = array_cities.find(([sigla]) => sigla === uf);
+  if(!estado) return;
 
-  if (estado) {
+  const cidades = estado[1];
 
-    const cidades = estado[1];
+  cidades.forEach(([cidade]) => {
 
-    cidades.forEach(([cidade]) => {
+    const option = document.createElement("option");
 
-      const option = document.createElement("option");
+    option.value = cidade;
+    option.textContent = cidade;
 
-      option.value = cidade;
-      option.textContent = cidade;
+    if(cidade === currentCidade){
+      option.selected = true;
+    }
 
-      if(cidade === currentCidade){
-        option.selected = true;
-      }
+    cidadeSelect.appendChild(option);
 
-      cidadeSelect.appendChild(option);
-
-    });
-
-  }
+  });
 
 }
 
@@ -141,14 +135,13 @@ function atualizarCidades(selectUfId, selectCidadeId) {
 function preencherEstados(selectId, selectCidadeId) {
 
   const select = getId(selectId);
-  if(!select) return;
-
   const cidadeSelect = getId(selectCidadeId);
-  if(!cidadeSelect) return;
 
-  const currentValue = select.value; // guarda valor atual
+  if(!select || !cidadeSelect) return;
 
-  select.innerHTML = "";
+  const currentUf = select.value;
+
+  select.replaceChildren();
 
   array_estados.forEach(([uf, nome]) => {
 
@@ -157,17 +150,19 @@ function preencherEstados(selectId, selectCidadeId) {
     option.value = uf;
     option.textContent = `${uf} - ${nome}`;
 
-    if(uf === currentValue){
-      option.selected = true; // restaura seleção
+    if(uf === currentUf){
+      option.selected = true;
     }
 
     select.appendChild(option);
 
   });
 
-  select.addEventListener("change", () => {
+  atualizarCidades(selectId, selectCidadeId);
+
+  select.onchange = () => {
     atualizarCidades(selectId, selectCidadeId);
-  });
+  };
 
 }
 
