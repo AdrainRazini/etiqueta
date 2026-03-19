@@ -439,7 +439,7 @@ function TemplateEtiqueta(Data = {}, volume = 1){
     row1.append(imgCell,idTitle,idValue);
 
 
-        // VOLUME
+    // VOLUME
     const row2 = createobj("tr");
     row2.append(
         createobj("td",{html:"<strong>Volume</strong>"}),
@@ -547,47 +547,6 @@ function generatePDFData(Data = {}) {
     // espera renderização
     setTimeout(waitLoad,100);
 
-}
-
-function generatePDFcard(card, options = {}) {
-  
-    const totalVolumes = Number(options.Qtd) || 1;
-    const printContent = document.createElement("div");
-
-    for (let i = 1; i <= totalVolumes; i++) {
-
-        const clone = card.cloneNode(true);
-
-        clone.querySelectorAll(".btn-oculte").forEach(el => el.remove());
-
-        const volumeEl = clone.querySelector(".qtd-volume");
-
-        if(volumeEl){
-            volumeEl.textContent = `Volume ${i}/${totalVolumes}`;
-        }
-
-        printContent.appendChild(clone);
-
-    }
-    const printWindow = window.open('', '', 'width=800,height=600');
-    if(!printWindow){
-    //alert("Popup bloqueado pelo navegador.");
-    ADN.run("alert",{text:"Popup bloqueado pelo navegador."})
-    return;
-    }
-    printWindow.document.write('<html><head><title>PDF</title>');
-    printWindow.document.write('<link rel="stylesheet" href="css/transporte/style.css">');
-    printWindow.document.write('</head><body>');
-    printWindow.document.write(printContent.innerHTML);
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-   
-    // espera tudo carregar
-    printWindow.onload = () => {
-        setTimeout(() => {
-            printWindow.print();
-        }, 200);
-    };
 }
 
 
